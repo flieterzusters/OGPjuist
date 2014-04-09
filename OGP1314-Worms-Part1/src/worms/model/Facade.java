@@ -14,6 +14,12 @@ public class Facade implements IFacade {
 		}
 	}
 
+	//ik typ hier alle methode uit interface klasse facade over
+	void addEmptyTeam(World world, String newName) {
+	
+	}	
+		
+		
 	@Override
 	public boolean canMove(Worm worm, int nbSteps) {
 		return worm.movePossible(nbSteps);
@@ -63,13 +69,11 @@ public class Facade implements IFacade {
 
 	@Override
 	public double getY(Worm worm) {
-		// TODO Auto-generated method stub
 		return worm.getPositionY();
 	}
 
 	@Override
 	public double getOrientation(Worm worm) {
-		// TODO Auto-generated method stub
 		return worm.getOrientation();
 	}
 
