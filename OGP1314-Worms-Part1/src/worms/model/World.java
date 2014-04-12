@@ -6,26 +6,25 @@ public class World {
 
 private double width, height;
 	
-public World(double width, double height) {	
-	if (!this.validSize(width) || !this.validSize(height))
-		throw new IllegalArgumentException(); // catch aan te vullen in facade
+public World(double width, double height) throws IllegalArgumentException {	
 	this.setWidth(width);
 	this.setHeight(height);
 }
 
-public void setWidth(double width) {
-	this.width = width;
-	}	
+private void setWidth(double newWidth) throws IllegalArgumentException {
+	if(!validSize(newWidth)) {throw new IllegalArgumentException();} // catch aan te vullen in facade
+	else {width = newWidth;}
+	}
 
 public  double getWidth() {
 	return this.width;
 	}
 
 
-
-public void setHeight(double height) {
-	this.height = height;
-	}	
+private void setHeight(double newHeight) throws IllegalArgumentException {
+	if(validSize(newHeight)) {throw new IllegalArgumentException();}
+	else {height = newHeight;}
+}	
 
 public double getHeight() {
 	return this.height;
@@ -38,8 +37,6 @@ public boolean validSize(double size) {
 	else {return false;}
 	}
 	
-
-
 	
 	
 }
