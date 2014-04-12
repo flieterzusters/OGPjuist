@@ -3,6 +3,7 @@
  */
 package worms.model;
 import worms.util.*;
+import asteroids.model.Vector;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Basic;
 
@@ -13,18 +14,12 @@ import be.kuleuven.cs.som.annotate.Basic;
  * 
  */
 
-//oezfjdeiozjafikeopfk
+
 public class Worm {
 
+private Vector Position;
 
-/**
- * This is the variable that gives the horizontal position of the worm on the x-axis.
- */
-private double positionX;
-/**
- * This is the variable that gives the vertical position of the worm on the y-axis.
- */
-private double positionY;
+
 /**
  * Here the Number of action points was stored as integer variable. The action points can be used to move, jump or turn.
  */
@@ -87,16 +82,28 @@ private double angle;
  * 		/validX(X)   validY(Y)
  * @throws  Illegal argument als radius of angle niet valid is?
  */
-public Worm(double Px, double Py,double angle, double radius, String name) throws IllegalArgumentException {
+public Worm(Vector position, double angle, double radius, String name) throws IllegalArgumentException {
 
-		this.setPositionX(Px);
-		this.setPositionY(Py);
+	//voor positie heb ik in facade ook de argumenten van een gecreeerde worm argumenten aangepast	
+	    this.setPosition(position);
 		this.setRadius(radius);
 		this.setNaming(name);
 		this.setActionPoints(this.getMaxPossiblePoints());
 		this.setOrientation(angle);
 
 }
+
+
+public void setPosition(Vector newPosition) {
+	this.Position = newPosition;
+	
+}
+
+
+public Vector getPosition() {	
+	return this.Position;
+}
+
 
 
 /**
@@ -109,76 +116,7 @@ public double getMinRadius() {
 }
 
 
-/**
- * The horizontal position of the worm is set.
- * @param X the x-coordinate of the worm
- * @post the new x-coordinate for this worm is set to the given x-coordinate.
- * 		/new.getX()==x
- * @throws IllegalArgumentException
- * 			If the given x-coordinate is not valid
- * 		/!validX
- */
-public void setPositionX(double X) throws IllegalArgumentException {
-	if (validX(X)){
-	this.positionX=X;}
-	else throw new IllegalArgumentException();
-}
 
-
-/**
- * Looks if the horizontal coordinate is valid.
- * @param x the x-coordinate of the worm
- * @return looks if the given parameter is of the type double if it is it returns true
- */
-public boolean validX(double x) {
-	return (!Double.isNaN(x));
-}
-
-
-/**
- * Gives the horizontal position of the worm.
- * @return gives the location of the worm on the X-axis
- */
-@Basic
-public double getPositionX(){
-	return this.positionX;
-}
-
-
-/**
- * The vertical position of the worm is set.
- * @param Y the y-coordinate of the worm
- * @post the new y-coordiinate for this worm is set tot the given x-coordinate.
- * 		/new.getY()==y
- * @throws IllegalArgumetnExeption
- * 				if the fiven y-coordinate is not valid
- * 		/!validY
- */
-public void setPositionY(double Y){
-	if (validY(Y)){
-	this.positionY=Y;}
-	else throw new IllegalArgumentException();
-}
-
-
-/**
- *  Looks if the vertical coordinate is valid.
- * @param y the y-coordinate of the worm
- * @return looks if the given parameter is of the type double if it is it returns true
- */
-public boolean validY(double y) {
-	return (!Double.isNaN(y));
-}
-
-
-/**
- * gives the vertical position of the worm.
- * @return gives the location of the worm on the y-axis
- */
-@Basic
-public double getPositionY(){
-	return this.positionY;
-}
 
 
 /**
@@ -424,11 +362,13 @@ public void Move(int nbSteps) throws IllegalArgumentException  {
 	if (movePossible(nbSteps)){ 
 		this.setActionPoints(this.getActionPoint() - costMove(nbSteps));
 		double travelled= nbSteps*this.radius;
-		this.setPositionX(this.getPositionX()+travelled*Math.cos(this.getOrientation()));
-		this.setPositionY(this.getPositionY()+travelled*Math.sin(this.getOrientation()));
+		
+		double xCor = this.getPosition().getPositionX()+travelled*Math.cos(this.getOrientation());
+		double yCor = this.getPosition().getPositionY()+travelled*Math.sin(this.getOrientation());
+		setPosition(new Vector(xCor,yCor));
 		}
 	else throw new IllegalArgumentException("you don't have enough action points.");
-}
+	}
 
 
 /**
@@ -477,8 +417,7 @@ public void Jump() throws IllegalArgumentException {
 			if(this.CheckOrientation()){
 				double t=this.getJumpTime();
 				double[] endPosition = this.getJumpStep(t);
-				this.setPositionX(endPosition[0]);
-				this.setPositionY(endPosition[1]);
+				this.setPosition(new Vector(endPosition[0],endPosition[1]));
 				this.setActionPoints(0);
 			}
 			else { throw new IllegalArgumentException("this is not a valid jump, the worm has to be facing up.");}
@@ -529,8 +468,8 @@ public double getJumpTime(){
 public double[] getJumpStep(double t){  
 	double velocityX=(this.getIntialVelocity()*Math.cos(this.getOrientation()));
 	double velocityY=(this.getIntialVelocity()*Math.sin(this.getOrientation()));
-	double positionAftherJumpX= (getPositionX() + (velocityX*t));
-	double positionAftherJumpY= (getPositionY() + ((velocityY*t) - 0.5*(Worm.Gravity*Math.pow(t,2))));
+	double positionAftherJumpX= (this.getPosition().getPositionX() + (velocityX*t));
+	double positionAftherJumpY= (this.getPosition().getPositionY() + ((velocityY*t) - 0.5*(Worm.Gravity*Math.pow(t,2))));
 	double[] endPosition = {positionAftherJumpX,positionAftherJumpY};
 	return endPosition;	
 }
