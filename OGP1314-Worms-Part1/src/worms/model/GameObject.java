@@ -14,7 +14,7 @@ import be.kuleuven.cs.som.annotate.Basic;
  */
 
 
-public abstract class WorldObject {  //abstract want has now object of his own zie p 477
+public abstract class GameObject {  //abstract want has now object of his own zie p 477
 
 private Vector Position;	
 
@@ -29,7 +29,7 @@ private final double minRadius=0.25;
 private double radius;
 
 	
-public WorldObject (Vector position, double radius) {
+public GameObject (Vector position, double radius) {
 		this.setPosition(position);
 		this.setRadius(radius);
 }

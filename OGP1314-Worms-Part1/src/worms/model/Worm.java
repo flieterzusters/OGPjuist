@@ -15,10 +15,12 @@ import be.kuleuven.cs.som.annotate.Basic;
  */
 
 
-public class Worm extends WorldObject {
+public class Worm extends GameObject {
 
 
+private World world;	
 
+private double HidPoints;
 
 /**
  * Here the Number of action points was stored as integer variable. The action points can be used to move, jump or turn.
@@ -76,11 +78,11 @@ private double angle;
  * 		/validX(X)   validY(Y)
  * @throws  Illegal argument als radius of angle niet valid is?
  */
-public Worm(Vector position, double angle, double radius, String name) throws IllegalArgumentException {
+public Worm(World world, Vector position, double angle, double radius, String name) throws IllegalArgumentException {
 
 	//voor positie heb ik in facade ook de argumenten van een gecreeerde worm argumenten aangepast	
-	    
 	    super(position, radius);
+	    this.setWorld(world);
 		this.setNaming(name);
 		this.setActionPoints(this.getMaxPossiblePoints());
 		this.setOrientation(angle);
@@ -88,7 +90,13 @@ public Worm(Vector position, double angle, double radius, String name) throws Il
 }
 
 
+public void setWorld(World world){
+	this.world =world;
+	}
 
+public World getWorld(){
+	return this.world;
+	}
 
 
 

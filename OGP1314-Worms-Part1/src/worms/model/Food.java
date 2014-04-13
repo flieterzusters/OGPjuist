@@ -1,14 +1,24 @@
 package worms.model;
 
 
-public class Food extends WorldObject {
+public class Food extends GameObject {
 	
 private World world;	
 private Vector Position;
-private static double foodRadius = 0.20;
-	
+private static double FOOD_RADIUS = 0.20;
+
+/**
+ * Creates a new food.
+ * @param world
+ * @param position
+ * 		  The initial position of the space object.
+ *  @effect Food is initialized as a GameObject with a given position and radius.
+ *        | super(position, FOOD_RADIUS)
+ * @effect the world of this food ..........
+ *         
+ */	
 public Food(World world, Vector position){
-	super(position, foodRadius);
+	super(position, FOOD_RADIUS);
 	this.setWorld(world);
 }
 
