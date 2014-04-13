@@ -15,19 +15,16 @@ import be.kuleuven.cs.som.annotate.Basic;
  */
 
 
-public class Worm {
+public class Worm extends WorldObject {
 
-private Vector Position;
+
 
 
 /**
  * Here the Number of action points was stored as integer variable. The action points can be used to move, jump or turn.
  */
 private int actionPoint;
-/**
- * This indicates the minimal radius a worm should have when he is created.
- */
-private final double minRadius=0.25;
+
 /**
  * This is the density a worm has, this is final and static because it is the same for all the worms and can't change during the game.
  */
@@ -40,10 +37,7 @@ private static final double Gravity = 9.80665;
  * Variable where the name is stored.
  */
 private String name;
-/**
- * The worm is shaped as a circle, this circle is defined by this value, it must be greater than the minRadius.  
- */
-private double radius;
+
 /**
  * This gives the angle in radians in witch way the worm  is facing to,
  * the angle is defined as 0 for facing at the right, pi/2 facing the vertical axis and pi for facing to the left. 
@@ -85,8 +79,8 @@ private double angle;
 public Worm(Vector position, double angle, double radius, String name) throws IllegalArgumentException {
 
 	//voor positie heb ik in facade ook de argumenten van een gecreeerde worm argumenten aangepast	
-	    this.setPosition(position);
-		this.setRadius(radius);
+	    
+	    super(position, radius);
 		this.setNaming(name);
 		this.setActionPoints(this.getMaxPossiblePoints());
 		this.setOrientation(angle);
@@ -94,26 +88,10 @@ public Worm(Vector position, double angle, double radius, String name) throws Il
 }
 
 
-public void setPosition(Vector newPosition) {
-	this.Position = newPosition;
-	
-}
-
-
-public Vector getPosition() {	
-	return this.Position;
-}
 
 
 
-/**
- * basic inspector that returns the radius of the worm.
- * @return the minimal radius that the worm should have
- */
-@Basic
-public double getMinRadius() {
-	return this.minRadius;
-}
+
 
 
 
@@ -168,40 +146,7 @@ public double getMass(){
 
 		return  Worm.Density*((4.0/3.0)*Math.PI*Math.pow(this.getRadius(),3));
 }
-/**
- * gives the worm the radius given by the parameter
- * @param givenradius the new radius of this worm
- * @post the new radius of the worm is equal to the value of the parameter
- * 		/new.getRadius() == radius
- * @throws IllegalArgumentException
- * 				the given radius is not valid
- */
-public void setRadius(double givenradius) throws IllegalArgumentException {
-	if (validRadius(givenradius)) {
-		this.radius= givenradius;
-	}
-	else throw new IllegalArgumentException("Illegal value for the radius");
-}
-/**
- * checks if the radius of the worm is a valid radius
- * @param radius the radius witch need to be checked if it is valid or not.
- * @return True if the radius is bigger than the minimal radius or 
- * 			false if the radius is lower than the minimal radius a worm should need to have.
- * 		/radius>minRadius
- */
 
-public boolean validRadius(double radius){
-	if (radius>minRadius) {return true;}
-	else {return false;}
-}
-/**
- * the radius of the worm
- * @return the radius of this worm
- */
-@Basic
-public double getRadius() {
-	return radius;
-}
 
 
 /**
@@ -218,7 +163,7 @@ public double getRadius() {
  * 
  */
 public void setNaming(String GivenName) throws IllegalArgumentException {
-		if (ValidName(GivenName))
+		if (isValidName(GivenName))
 			{this.name=GivenName;}
 
 		else 
@@ -236,7 +181,7 @@ public void setNaming(String GivenName) throws IllegalArgumentException {
  * 		 
  */
 @Model
-public boolean ValidName(String name) {
+public boolean isValidName(String name) {
 
 	if (name.length() < 2)
 		{return false ;}
@@ -279,7 +224,7 @@ public void changeNaming(String newName) {
  * @post the new orientation of this worm is set to the given angle
  */
 public void setOrientation(double angle){
-	assert ValidAngle(angle);
+	assert isValidAngle(angle);
 	this.angle=angle;
 }
 
@@ -291,7 +236,7 @@ public void setOrientation(double angle){
  * 			false if it is out of the bound
  * 		/-2.0*Math.PI<= angle <=2.0*Math.PI
  */
-public boolean ValidAngle(double angle) {
+public boolean isValidAngle(double angle) {
 	if (angle>=-2.0*Math.PI && angle<=2.0*Math.PI){
 	return true;}
 	else return false;
@@ -336,8 +281,8 @@ public boolean TurnPossible(double angle){
  * 		/this.setActionPoints(this.getActionPoint()-Math.abs(costTurn))
  */
 public void turn(double angle){
-	assert this.ValidAngle(angle);
-	assert this.ValidAngle(this.getOrientation() + angle); // weglaten of niet test bij setOrientation of is het een voorwaarde om Turn uit te voeren?
+	assert this.isValidAngle(angle);
+	assert this.isValidAngle(this.getOrientation() + angle); // weglaten of niet test bij setOrientation of is het een voorwaarde om Turn uit te voeren?
 	assert this.TurnPossible(angle);
 	int costTurn = (int) Math.ceil((Math.abs(angle)-this.getOrientation())*(60/(2*Math.PI)));
 	this.setActionPoints(this.getActionPoint()-Math.abs(costTurn)); 
@@ -361,7 +306,7 @@ public void turn(double angle){
 public void Move(int nbSteps) throws IllegalArgumentException  {
 	if (movePossible(nbSteps)){ 
 		this.setActionPoints(this.getActionPoint() - costMove(nbSteps));
-		double travelled= nbSteps*this.radius;
+		double travelled= nbSteps*this.getRadius();
 		
 		double xCor = this.getPosition().getPositionX()+travelled*Math.cos(this.getOrientation());
 		double yCor = this.getPosition().getPositionY()+travelled*Math.sin(this.getOrientation());
