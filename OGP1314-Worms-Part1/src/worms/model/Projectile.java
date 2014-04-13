@@ -6,7 +6,7 @@ private Worm worm;
 
 private double newX,newY;
 
-	
+//KLOPT NIET
 public Projectile(Worm worm, Vector position, double angle, double) throws IllegalArgumentException{
 	this.worm = worm;
 	this.newX = worm.getPosition().getPositionX() + (Math.cos(worm.getOrientation()) * worm.getRadius()); 

@@ -1,3 +1,7 @@
+
+
+//ik heb alle methode van facade auto (uit gui) laten plaatsen dus hier zijn nog veel fouten
+
 package worms.model;
 
 import java.util.Collection;
@@ -7,18 +11,7 @@ import java.util.Random;
 
 public class Facade implements IFacade {
 
-	@Override
-	public Worm createWorm(double x, double y, double direction, double radius,
-			String name) throws IllegalArgumentException{
-		
-		Vector position = new Vector(x,y);
-		try {Worm wormpie = new Worm(position,direction,radius,name);
-			return wormpie;}
-		catch(IllegalArgumentException illegalargument) {
-			throw new ModelException(illegalargument);
-		}
-	}
-		
+	
 		
 	@Override
 	public boolean canMove(Worm worm, int nbSteps) {
@@ -171,14 +164,22 @@ public class Facade implements IFacade {
 		return null;
 	}
 
+	
 
 	@Override
 	public Worm createWorm(World world, double x, double y, double direction,
-			double radius, String name) {
-		// TODO Auto-generated method stub
-		return null;
+			double radius, String name) throws IllegalArgumentException {
+
+		Vector position = new Vector(x,y);
+		try {Worm wormpie = new Worm(world, position,direction,radius,name);
+			return wormpie;}
+		catch(IllegalArgumentException illegalargument) {
+			throw new ModelException(illegalargument);
+		}
 	}
 
+	
+	
 
 	@Override
 	public void fall(Worm worm) {
