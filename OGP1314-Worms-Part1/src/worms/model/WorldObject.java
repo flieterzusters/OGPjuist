@@ -14,7 +14,7 @@ import be.kuleuven.cs.som.annotate.Basic;
  */
 
 
-public abstract class WorldObject {  
+public abstract class WorldObject {  //abstract want has now object of his own zie p 477
 
 private Vector Position;	
 

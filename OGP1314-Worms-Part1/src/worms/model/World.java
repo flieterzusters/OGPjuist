@@ -17,6 +17,7 @@ public World(double width, double height,boolean[][] passableMap, Random random)
 	this.setWidth(width);
 	this.setHeight(height);
 	this.passableMap = passableMap;
+	//this.Objects = new HashSet<WorldObject>();
 }
 
 private void setWidth(double newWidth) throws IllegalArgumentException {
@@ -49,12 +50,18 @@ public double getPixelAreaWidth(){
 	return getWidth()/ passableMap.length;
 }
 
-//public Set<Worm> getWorms() {  //hb 
-	//Set<Worm> Worms = new HashSet<Worm>(); //hier maak ik dus een set aan 'Worms'
+
+/**
+ * Returns a set collecting all the worms.
+ * 
+ * @return
+ */
+////	Set<Worm> Worms = new HashSet<Worm>(); //hier maak ik dus een set aan 'Worms'
+//		for(WorldObject worldobject: Objects)
+//			Worms.add((WOrm)WorldObject);
 //	return Worms;
 //}
 
-	
 }
 
 
