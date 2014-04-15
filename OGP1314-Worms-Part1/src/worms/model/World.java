@@ -18,6 +18,11 @@ public World(double width, double height,boolean[][] passableMap, Random random)
 	this.setHeight(height);
 	this.passableMap = passableMap;
 	//this.Objects = new HashSet<WorldObject>();
+	
+	
+	
+	
+	
 }
 
 private void setWidth(double newWidth) throws IllegalArgumentException {
@@ -49,6 +54,9 @@ public boolean isValidSize(double size) {
 public double getPixelAreaWidth(){
 	return getWidth()/ passableMap.length;
 }
+public double getPixelAreaHeight(){
+	return getHeight()/ passableMap.Height;
+}
 
 
 /**
@@ -62,8 +70,36 @@ public double getPixelAreaWidth(){
 //	return Worms;
 //}
 
+
+public boolean ImPassable(double x, double y,double radius){
+	if (outOfWorld(x,y,radius))
+		return true;
+	for (int i= (int) (x-Math.abs(radius)); i<x+Math.abs(radius);i++){
+		if (i>= && i<getPassableMap()[0].length){
+			for (int j =(int) (y-Math.abs(radius));j<y+Math.abs(radius);j++){
+				if (j>=0 && j<getPassableMap().length)
+			}
+		}
+	}
 }
 
+private Object[] getPassableMap() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+private boolean outOfWorld(double x, double y, double radius) {
+	if (x+Math.abs(radius)>getWidth())
+	return true;
+	if (y+Math.abs(radius)>getHeight())
+	return true;
+	if (x-Math.abs(radius)<0.0)
+	return true;
+	if (y-Math.abs(radius)<0.0)
+	return true;
+	
+}
+}
 
 
 
