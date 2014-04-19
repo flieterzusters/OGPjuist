@@ -16,6 +16,22 @@ import be.kuleuven.cs.som.annotate.Basic;
 
 public abstract class GameObject {  //abstract want has now object of his own zie p 477
 
+
+
+/**
+ * Enumeration of all possible states of an Game object.
+ */
+protected static enum State{
+	ACTIVE,TERMINATED;
+}
+
+
+/**
+*  this game object begins with ACTIVE state.
+*/
+protected State state = State.ACTIVE;		
+	
+	
 private Vector Position;	
 
 /**
@@ -28,10 +44,31 @@ private final double minRadius=0.25;
  */
 private double radius;
 
+/**
+ * The world in which this object is placed. Null if this object doesn't have a world.
+ */
+protected World world;
+
 	
 public GameObject (Vector position, double radius) {
 		this.setPosition(position);
 		this.setRadius(radius);
+}
+
+
+/**
+ * Sets the state of this game object.
+ */
+protected void setState(State state)
+{
+	if(state == null) {throw new NullPointerException();}
+	this.state = state;
+}
+
+
+protected State getState()
+{
+	return this.state;
 }
 
 
@@ -89,6 +126,62 @@ public double getMinRadius() {
 public double getRadius() {
 	return radius;
 }
+
+
+
+/**
+ * Sets this game object in a world.
+ * @param world 
+ */
+public void setWorld(World world) {
+	if (this.validWorld(world))
+	{this.world = world;}
+}
+
+/**
+ * Returns the world of this game object.
+ * @return world
+ */
+public World getWorld() {
+	return world;
+}	
+	
+	
+	
+/**
+ * Check whether this given world is valid for this game object.
+ * @param  world
+ */
+public boolean validWorld(World world){ //p3: each game object one world, not twice
+	if (this.isTerminated() || (world == null) ) {return false;} 
+	else {return true;} //nog niet volledig 
+	}
+
+
+/**
+ * Check whether this game object is terminated or not.
+ * @return True if the state of this object is terminated.
+ */
+public boolean isTerminated(){
+	if (this.getState() == State.TERMINATED) {return true;}
+	else {return false;}
+}	
+
+
+
+/**
+ * This object will be removed from the world.
+ */
+protected void terminate(){
+	if(getWorld() == null) {throw new NullPointerException();}
+	getWorld().removeObject(this);
+	this.setState(State.TERMINATED);
+}
+
+
+
+
+
 
 
 

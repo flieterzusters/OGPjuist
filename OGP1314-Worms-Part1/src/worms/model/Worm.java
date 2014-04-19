@@ -3,7 +3,6 @@
  */
 package worms.model;
 import worms.util.*;
-import asteroids.model.Vector;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Basic;
 
@@ -20,7 +19,7 @@ public class Worm extends GameObject {
 
 private World world;	
 
-private double HidPoints;
+private double hitPoints;
 
 /**
  * Here the Number of action points was stored as integer variable. The action points can be used to move, jump or turn.
@@ -81,12 +80,12 @@ private double angle;
 public Worm(World world, Vector position, double angle, double radius, String name) throws IllegalArgumentException {
 
 	//voor positie heb ik in facade ook de argumenten van een gecreeerde worm argumenten aangepast	
-	    super(position, radius);
+	    super( position, radius);
 	    this.setWorld(world);
 		this.setNaming(name);
 		this.setActionPoints(this.getMaxPossiblePoints());
 		this.setOrientation(angle);
-
+	    this.setHitPoints(this.getMaxPossiblePoints());
 }
 
 
@@ -99,6 +98,24 @@ public World getWorld(){
 	}
 
 
+public void setHitPoints(int hitpoints){
+	if ( hitpoints <0) {
+		this.hitPoints =0;}
+
+	else if (hitpoints > getMaxPossiblePoints()){
+		this.hitPoints = getMaxPossiblePoints();}	
+
+	else { this.hitPoints = hitpoints ; }		
+	
+}
+
+/**
+ * gives the number of hit points left for the worm.
+ * @return the number of hit points left for the worm
+ */
+public int getHitPoint(){
+	return this.hitPoints ;	
+}
 
 
 
@@ -133,6 +150,8 @@ public void setActionPoints(int actionPoints){
 public int getActionPoint() {
 	return this.actionPoint ;	
 }
+
+
 /**
  * calculates and gives the maximum number of action points a worm can have.
  * @return the maximum number of action points this is equal to the worms mass rounded to the nearest integer.

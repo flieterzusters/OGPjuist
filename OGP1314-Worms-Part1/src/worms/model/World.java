@@ -8,6 +8,7 @@ import java.util.Random;
 import asteroids.model.Ship;
 import asteroids.model.SpaceObject;
 
+
 public class World {
 
 private double width, height;
@@ -58,7 +59,7 @@ public double getPixelAreaHeight(){
 	return getHeight()/ passableMap.Height;
 }
 public int getCoordinatePixelX(double x) throws IllegalArgumentException {
-	if (ValidCoordinateX(x){
+	if (ValidCoordinateX(x)){
 		double pixelWidth=getPixelAreaWidth();
 		int pixelCoordinate = passableMap.length;
 		for(double i = passableMap.length; i>=0;){
@@ -93,16 +94,6 @@ private boolean ValidCoordinateY(double y) {
 		return true;}
 		else return false;
 }
-/**
- * Returns a set collecting all the worms.
- * 
- * @return
- */
-////	Set<Worm> Worms = new HashSet<Worm>(); //hier maak ik dus een set aan 'Worms'
-//		for(WorldObject worldobject: Objects)
-//			Worms.add((WOrm)WorldObject);
-//	return Worms;
-//}
 
 
 
@@ -128,7 +119,7 @@ public boolean imPassable(double x, double y,double radius){
 			startY= y+radius*(Math.sin(direction));
 		}
 		else return false;
-	return true
+	return true;
 	
 	
 	/*	if (outOfWorld(x,y,radius))
@@ -150,6 +141,7 @@ public boolean imPassable(double x, double y,double radius){
 public boolean[][] getPassableMap(){
 	return this.PassableMap;
 }
+
 public void setPassableMap(boolean[][] map){
 	this.passableMap =map;
 	
@@ -167,6 +159,45 @@ private boolean outOfWorld(double x, double y, double radius) {
 	return true;
 	
 }
+
+/**
+ * Removes a game object from this world.
+ */
+public void removeObject (GameObject object) {
+//laten staan zie link met game object terminate()
+}
+
+
+/**
+ * A collection of all the objects in the world.
+ */
+private Set<GameObject> Objects = new HashSet<GameObject>();
+
+
+
+public void addObject (GameObject object) { //nog niet juist
+	assert (object.getWorld() == this) && (object !=null);
+	object.setWorld(this);
+	Objects.add(object);
+}
+
+
+
+
+/**
+ * Returns a set collecting all the worms.
+ * 
+ * @return
+ */
+//public Set<Worm> getWorms() {
+ //Set<Worm> Worms = new HashSet<Worm>(); //hier maak ik dus een set aan 'Worms'
+ //   for(GameObject gameObject: Objects)
+//			Worms.add((WOrm)WorldObject);
+//	return Worms;
+
+
+
+
 }
 
 
