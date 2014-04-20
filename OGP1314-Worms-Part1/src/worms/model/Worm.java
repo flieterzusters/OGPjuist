@@ -88,7 +88,6 @@ public Worm(World world, Vector position, double angle, double radius, String na
 	    this.setHitPoints(this.getMaxPossiblePoints());
 }
 
-
 public void setWorld(World world){
 	this.world =world;
 	}
@@ -113,7 +112,7 @@ public void setHitPoints(int hitpoints){
  * gives the number of hit points left for the worm.
  * @return the number of hit points left for the worm
  */
-public int getHitPoint(){
+public double getHitPoint(){
 	return this.hitPoints ;	
 }
 

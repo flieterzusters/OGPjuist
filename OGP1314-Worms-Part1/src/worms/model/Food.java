@@ -81,16 +81,16 @@ public double getY(){
 }
 
 public boolean isActive(){
-	if (this.terminated==0){
+	if (this.eaten==1){
 		return true;
 	}
 	else { return false;}
 }
 
-public void terminated(){
-	this.terminated=1;
+public void eaten(){
+	this.eaten=0;
 }
-private int terminated;
+private int eaten;
 
 
 }
