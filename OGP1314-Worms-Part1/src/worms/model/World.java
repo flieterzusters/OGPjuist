@@ -5,9 +5,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Random;
 
-import asteroids.model.Ship;
-import asteroids.model.SpaceObject;
-
+//import asteroids.model.Ship;
+//import asteroids.model.SpaceObject;
 
 public class World {
 
@@ -58,7 +57,7 @@ public double getPixelAreaWidth(){
 public double getPixelAreaHeight(){
 	return getHeight()/ passableMap.Height;
 }
-public int getCoordinatePixelX(double x) throws IllegalArgumentException {
+public int getCoordinatePixelX(double x) throws IllegalArgumentException { //catch aanvullen
 	if (ValidCoordinateX(x)){
 		double pixelWidth=getPixelAreaWidth();
 		int pixelCoordinate = passableMap.length;
@@ -113,7 +112,7 @@ public boolean imPassable(double x, double y,double radius){
 	double startX = x;
 	double startY = y;
 	for (direction=0; direction<=2*(Math.PI);)
-		if(PassableMap[getCoordinatePixelX(startX)][getCoordinatePixelY(startY)]){
+		if(passableMap[getCoordinatePixelX(startX)][getCoordinatePixelY(startY)]){
 			direction= direction+Double.MIN_VALUE;
 			startX= x+radius*(Math.cos(direction));
 			startY= y+radius*(Math.sin(direction));
@@ -139,14 +138,13 @@ public boolean imPassable(double x, double y,double radius){
 	
 	
 public boolean[][] getPassableMap(){
-	return this.PassableMap;
+	return this.passableMap;
 }
 
 public void setPassableMap(boolean[][] map){
 	this.passableMap =map;
 	
 }
-private boolean[][] passableMap;
 
 private boolean outOfWorld(double x, double y, double radius) {
 	if (x+Math.abs(radius)>getWidth())
@@ -180,6 +178,18 @@ public void addObject (GameObject object) { //nog niet juist
 	object.setWorld(this);
 	Objects.add(object);
 }
+
+public boolean hasFood(Food food) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+public void removeFood(Food food) {
+	// TODO Auto-generated method stub
+	
+}
+
+
 
 
 
