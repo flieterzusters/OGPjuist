@@ -271,6 +271,10 @@ public void removeFood(Food food) {
 
 
 
+private void setActiveWorm(Worm worm) {
+	this.activeWorm = worm;
+}
+
 
 
 
