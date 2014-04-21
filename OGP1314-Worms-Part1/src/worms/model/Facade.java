@@ -7,6 +7,8 @@ package worms.model;
 import java.util.Collection;
 import java.util.Random;
 
+import asteroids.ModelException;
+
 
 
 public class Facade implements IFacade {
@@ -131,7 +133,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void addNewWorm(World world) {
-		// TODO Auto-generated method stub
+		world.addNewWorm();	
 		
 	}
 
@@ -281,8 +283,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public Collection<Worm> getWorms(World world) {
-		// TODO Auto-generated method stub
-		return null;
+	world.getWorms();
 	}
 
 

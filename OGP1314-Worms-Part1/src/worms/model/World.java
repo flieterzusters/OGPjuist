@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Random;
 
+import asteroids.model.Basic;
+import asteroids.model.Ship;
+import asteroids.model.SpaceObject;
+
 //import asteroids.model.Ship;
 //import asteroids.model.SpaceObject;
 
@@ -12,11 +16,18 @@ public class World {
 
 private double width, height;
 private boolean[][] passableMap;
-	
+private Random random;
+private Worm worm;
+
+
 public World(double width, double height,boolean[][] passableMap, Random random) throws IllegalArgumentException  {//zoals in interface	
 	this.setWidth(width);
 	this.setHeight(height);
 	this.passableMap = passableMap;
+	this.random = random ;
+	
+	
+	
 	//this.Objects = new HashSet<WorldObject>();
 	
 	
@@ -120,7 +131,7 @@ public boolean imPassable(double x, double y,double radius){
 		else return false;
 	return true;
 	
-	
+}
 	/*	if (outOfWorld(x,y,radius))
 		return true;
 	 for (int i= (int) (x-Math.abs(radius)); i<x+Math.abs(radius);i++){
@@ -166,18 +177,87 @@ public void removeObject (GameObject object) {
 }
 
 
+
+
+private Set<Worm> CollectionWorms = new HashSet<Worm>();
+
 /**
- * A collection of all the objects in the world.
  */
-private Set<GameObject> Objects = new HashSet<GameObject>();
-
-
-
-public void addObject (GameObject object) { //nog niet juist
-	assert (object.getWorld() == this) && (object !=null);
-	object.setWorld(this);
-	Objects.add(object);
+public void addWormTocollection(Worm wormpie) {
+    assert (wormpie !=null);
+	(this.getWorms()).add(wormpie);
 }
+
+/**
+ * Returns a set collecting all the worms.
+ * @return
+ */
+public Set<Worm> getWorms() {
+	return CollectionWorms ; 
+}
+
+
+public void addNewWorm() {
+	int Xrandom =  this.random.nextInt();
+	int Yrandom =  this.random.nextInt();
+	double angle =  2 * Math.PI * this.random.nextDouble();
+	double radius = Worm.getMinRadiusWorm();
+	Vector position = this.adjacentPosition(new Vector(Xrandom,Yrandom),radius);
+
+	if (position == null){throw new IllegalArgumentException();} //als object niet geplaatst kan worden
+	else {createWorm(this,position,angle,radius,"RandomNewWorm") ;}
+}
+
+
+
+private Vector adjacentPosition(Vector position){
+	int XcenterMap = (int) Math.round(this.getWidth() /2 ); 
+	int YcenterMap = (int) Math.round(this.getHeight()/2) ; 
+	int Xtempor = (int) position.getPositionX();
+	int Ytempor = (int) position.getPositionY(); 	
+	
+	while (! isAdjacent(Xtempor,Ytempor)){	
+	if (Xtempor < XcenterMap)
+		Xtempor = Xtempor + 1;
+	if (Xtempor > XcenterMap)
+		Xtempor = Xtempor - 1;
+	if (Ytempor < YcenterMap) 
+		Ytempor = Ytempor +1;
+	if (Ytempor > YcenterMap)
+		Ytempor = Ytempor -1;
+	else 
+		return null;
+	}
+	return new Vector(Xtempor, Ytempor);
+}
+
+public void createWorm(World world, Vector position, double angle, double radius, String name){
+	Worm wormpje = new Worm(world,position,angle,radius,name);
+	this.addWormTocollection(wormpje);
+}
+
+
+public boolean isAdjacent(Vector position, double radius){
+	double minDistanceRadius = radius * 0.1 ; 
+	if (!Impassable(position.getPositionX(), position.getPositionY(), minDistanceRadius)) 
+	return true ;
+}
+
+
+public boolean isAdjacent(double x, double y, double radius) {
+	double newRadius = radius * 0.1;
+	return ( !isImpassable(x, y, 0) && isImpassable(x, y, newRadius) );
+}
+
+
+
+
+
+
+
+
+
+
 
 public boolean hasFood(Food food) {
 	// TODO Auto-generated method stub
@@ -194,16 +274,6 @@ public void removeFood(Food food) {
 
 
 
-/**
- * Returns a set collecting all the worms.
- * 
- * @return
- */
-//public Set<Worm> getWorms() {
- //Set<Worm> Worms = new HashSet<Worm>(); //hier maak ik dus een set aan 'Worms'
- //   for(GameObject gameObject: Objects)
-//			Worms.add((WOrm)WorldObject);
-//	return Worms;
 
 
 

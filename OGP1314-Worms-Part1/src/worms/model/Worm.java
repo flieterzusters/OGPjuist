@@ -2,6 +2,9 @@
  * 
  */
 package worms.model;
+import java.util.HashSet;
+import java.util.Set;
+
 import worms.util.*;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Basic;
@@ -17,6 +20,8 @@ import be.kuleuven.cs.som.annotate.Basic;
 public class Worm extends GameObject {
 
 
+	
+	
 private World world;	
 
 private double hitPoints;
@@ -86,7 +91,16 @@ public Worm(World world, Vector position, double angle, double radius, String na
 		this.setActionPoints(this.getMaxPossiblePoints());
 		this.setOrientation(angle);
 	    this.setHitPoints(this.getMaxPossiblePoints());
+	    this.world.addWormTocollection(this);
 }
+
+
+
+
+
+
+	
+
 
 public void setWorld(World world){
 	this.world =world;
