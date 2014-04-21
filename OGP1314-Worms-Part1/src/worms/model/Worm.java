@@ -457,21 +457,6 @@ public double getIntialVelocity() {
 	double V0= ((F/this.getMass())*0.5);
 	return V0;		
 }
-/**
- * 
- * @return
- 
-public Vector directionToMove(){
-	double dsitance=0;
-	//Vector newposition = new Vector(getPosition(getPositionX()),getPosition(getPositionY()));
-	double bestMove=-0.7885;
-	double divergence = -0.7875;
-	while (divergence<=0.7875)
-	{ 
-*/	
-}
-
-
 
 
 }
