@@ -2,6 +2,7 @@ package worms.model;
 //aanpassingstest
 
 public class Bazooka extends Projectile {
+	
 private final int yield;
 private double massBazooka=0.3;	
 private double minForceBazooka=2.5;
@@ -24,7 +25,7 @@ private boolean ValidYield(int yield) {
 public double getMass(){
 return massBazooka;
 }
-public int getCostLaunch(){
+public static int getCostLaunch(){
 	return 50;}
 public double getForce(){
 	return minForceBazooka +(this.getYield()*((maxForceBazooka-minForceBazooka)/maxYield));

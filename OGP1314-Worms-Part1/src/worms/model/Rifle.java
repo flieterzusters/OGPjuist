@@ -22,7 +22,7 @@ private boolean ValidYield(int yield) {
 public double getMass(){
 return massRifle;
 }
-public int getCostLaunch(){
+public static int getCostLaunch(){
 	return 10;}
 public double getForce(){
 	return ForceRifle ;

@@ -56,6 +56,11 @@ public GameObject (Vector position, double radius) {
 }
 
 
+public GameObject(World world2, double x, double y, int i) {
+	// TODO Auto-generated constructor stub
+}
+
+
 /**
  * Sets the state of this game object.
  */

@@ -2,7 +2,9 @@
  * 
  */
 package worms.model;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import worms.util.*;
@@ -36,11 +38,11 @@ private int actionPoint;
 /**
  * This is the density a worm has, this is final and static because it is the same for all the worms and can't change during the game.
  */
-private static final double Density = 1062.0;
+public static final double Density = 1062.0;
 /**
  * This is the Gravity a worm has, this is final and static because it is the same for all the worms and can't change during the game.
  */
-private static final double Gravity = 9.80665;
+public static final double Gravity = 9.80665;
 /**
  * Variable where the name is stored.
  */
@@ -111,7 +113,7 @@ public World getWorld(){
 	}
 
 
-public void setHitPoints(int hitpoints){
+public void setHitPoints(double hitpoints){
 	if ( hitpoints <0) {
 		this.hitPoints =0;}
 
@@ -146,7 +148,7 @@ public double getMinimalRadiusWorm(){
  * 	/new.getActionPoints() == actionPoints
  * @post the variable ActionPoint is given a value= the action points a worm can spend.
  */
-public void setActionPoints(int actionPoints){   
+public void setActionPoints(double actionPoints){   
 
 	if (actionPoints <0) {
 		this.actionPoint =0;}
@@ -530,10 +532,52 @@ Vector furthestPosition = new Vector(this.getPosition().getPositionX()+Math.cos(
 }
 private final double stepSize=0.05;
 
-public boolean hasTeam() {
-	// TODO Auto-generated method stub
-	return false;
+private int index=0;
+public String getWeapon() {
+	
+	return selectedWeapon;
 }
+public String setWeapon()
+{
+return this.selectedWeapon=weapons.get(index);
+}
+public void nextWeapon(){
+	if (index==weapons.size()-1)
+		index=0;
+	else if (index<0)
+		index=0;
+	else weapons.get(index+1);
+}
+public String  selectedWeapon="Bazooka";
+public List<String> weapons =Arrays.asList("Bazooka","Rifle");
+
+public void shoot(int yield){
+	if (this.canShoot()){
+		if (this.getWeapon() =="Bazooka"){
+			Projectile projectile= new Projectile(this);
+			projectile.Bazooka(yield,projectile);
+			this.setActionPoints(this.getActionPoint()-Bazooka.getCostLaunch());
+		}
+		if (this.getWeapon() =="Rifle"){
+			Projectile projectile= new Projectile(this);
+			projectile.Rifle(yield,projectile);
+			this.setActionPoints(this.getActionPoint()-Rifle.getCostLaunch());
+		}
+	}
+}
+
+private boolean canShoot() {
+	
+	if (this.getWeapon()=="Bazooka" && this.getActionPoint()>Bazooka.getCostLaunch() && !this.getWorld().imPassable(this.getPosition().getPositionX(), this.getPosition().getPositionY(), this.getRadius()))
+		return true;
+	else if ((this.getWeapon()=="Rifle" && this.getActionPoint()>Rifle.getCostLaunch() && !this.getWorld().imPassable(this.getPosition().getPositionX(), this.getPosition().getPositionY(), this.getRadius())))
+		return true;
+	else
+	return false;
+	
+
+}
+
 }
 
 

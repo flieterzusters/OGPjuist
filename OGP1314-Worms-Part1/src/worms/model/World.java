@@ -4,7 +4,10 @@ import java.util.*;
 
 import worms.util.Util;
 
-
+/**
+ * this class represents the game world of the game "worms".
+ *
+ */
 public class World {
 
 private double width, height;
@@ -14,7 +17,7 @@ private Worm worm;
 
 /**
  * creates a world and initializes some parameters.
- * @param width the given width that a world will have.
+ * @param width the given width of the world.
  * @param height the height a world will have.
  * @param passableMap A map which represent a number of pixels where each pixel has the value true or false so to explain if the area is passable or not. 
  * @param random random number generator
@@ -24,12 +27,12 @@ private Worm worm;
  *  / this.setHeight(height);
  * @effect the passable map is set to the world
  *  /this.passableMap = passableMap;
- * @post  
- * 
- * 
- * 
- * 
- * @throws IllegalArgumentException
+ * @post  the provided map is set to the game as gameWorld
+ * 	/this.passableMap = passableMap
+ * @post random numbers are generated an provided to the game
+ * 	/this.random = random
+ * @throws IllegalArgumentException if the height or width aren't valid
+ * 	/!isValidSize(newWidth) // !isValidSize(newHeight)
  */
 public World(double width, double height,boolean[][] passableMap, Random random) throws IllegalArgumentException  {//zoals in interface	
 	this.setWidth(width);
@@ -41,13 +44,81 @@ public World(double width, double height,boolean[][] passableMap, Random random)
 	//food = new HashSet<Food>();
 	//projectiles = new HashSet<Projectile>();
 	//teams= new HashSet<Team>();
-	//this.Objects = new HashSet<WorldObject>();
-	
-	
-	
-	
+	//this.Objects = new HashSet<WorldObject>();	
 	
 }
+/**
+ * looks if there are worms left in the game
+ *	/gameFinished()
+ *if not the next worm is selected and on turn and HitPoints are increased with 10 and ActionPoints to maximumPoints
+ *	/iterator=worms.iterator() //setActiveWorm((Worm) iterator.next()) //activeWorm().setActionPoints(activeWorm().getMaxPossiblePoints())
+ *	/activeWorm().setHitPoints(activeWorm().getHitPoint()+10)
+ */
+public void nextTurn(){
+	if (gameFinished())
+		return;
+	if(! iterator.hasNext())
+		iterator=worms.iterator();
+	setActiveWorm((Worm) iterator.next());
+	activeWorm().setActionPoints(activeWorm().getMaxPossiblePoints());
+	activeWorm().setHitPoints(activeWorm().getHitPoint()+10);
+}
+/**
+ * initialises the status of the game to not Fisished jet
+ * /finished = false
+ */
+private boolean finished = false;
+/**
+ * gives the status of the game to look if it is already finished or not
+ * @return if the game is finished
+ * /return finished
+ */
+public  boolean gameFinished(){
+	return finished;
+}
+/**
+ * when game came to an end game is stopped and alle worms and teams are removerd
+ * /this.finished =true	//this.setActiveWorm(null) 	//this.setActiveTeam(null);
+ */
+public void setFinished(){
+	this.finished =true;
+	this.setActiveWorm(null);
+	this.setActiveTeam(null);
+}
+/**
+ * Assigns the team who can play now.
+ * /this.activeTeam=activeTeam
+ * @param activeTeam the team who is on turn now
+ * @post the new team is on turn.
+ */
+public void setActiveTeam(Team activeTeam){
+	this.activeTeam=activeTeam;
+}
+/**
+ * 
+ * @return
+ */
+public Team getActiveTeam(){
+	return this.activeTeam;
+}
+private Team activeTeam;
+
+public Worm setActiveWorm(Worm worm){
+	return this.activeWorm =worm;
+}
+private Worm activeWorm;
+
+private Iterator<Worm>iterator;
+public void startGame(){
+	iterator =worms.iterator();
+	if(iterator.hasNext());
+	setActiveWorm((Worm)iterator.next());
+	if (this.getActiveTeam() !=null &&this.getActiveTeam().getWormCollection().size()==0)
+		this.removeTeam(this.getTeam());
+	setActiveTeam(null);
+	setGameStarted();
+}
+
 
 private void setWidth(double newWidth) throws IllegalArgumentException {
 	if(!isValidSize(newWidth)) {throw new IllegalArgumentException();} // catch aan te vullen in facade
@@ -60,7 +131,7 @@ public  double getWidth() {
 
 
 private void setHeight(double newHeight) throws IllegalArgumentException {
-	if(isValidSize(newHeight)) {throw new IllegalArgumentException();}
+	if(!isValidSize(newHeight)) {throw new IllegalArgumentException();}
 	else {height = newHeight;}
 }	
 
@@ -95,7 +166,7 @@ public int getCoordinatePixelX(double x) throws IllegalArgumentException { //cat
 		}
 	else throw new IllegalArgumentException();	
 	}
-private boolean ValidCoordinateX(double x) {
+public boolean ValidCoordinateX(double x) {
 	if (x>= 0 && x<=getWidth()){
 	return true;}
 	else return false;
@@ -115,7 +186,7 @@ public int getCoordinatePixelY(double y) throws IllegalArgumentException {
 else throw new IllegalArgumentException();	
 }
 
-private boolean ValidCoordinateY(double y) {
+public boolean ValidCoordinateY(double y) {
 	if (y>= 0 && y<=getHeight()){
 		return true;}
 		else return false;
@@ -293,11 +364,12 @@ private boolean checkIfImpassable(double x, double y, double radius) {
 		return false;
 }
 
-
-private boolean inRange(double i_X, double j_Y, double radiusInPixels) {
-	return Math.sqrt(Math.pow(i_X,2)+ Math.pow(j_Y, 2))<=radiusInPixels;
-}
 */
+public boolean inRange(double i_X, double j_Y, double radius)
+{double RadiusInPixels=Math.abs(radius/getWidth()*getPassableMap()[0].length);
+	return Math.sqrt(Math.pow(i_X,2)+ Math.pow(j_Y, 2))<=RadiusInPixels;
+}
+
 ArrayList<Food>foods= new ArrayList<Food>();
 
 public void addNewFood() throws IllegalArgumentException{
@@ -339,11 +411,29 @@ public void removeFood(Food food) {
 	
 }
 
+public List<Worm>worms = new ArrayList<Worm>();
 
-private void setActiveWorm(Worm worm) {
-	this.activeWorm = worm;
+public Worm activeWorm(){
+	Worm worm =worms.get(this.getIndex());
+	if (worm.getActionPoint() == 0 && worms.size()>1)
+		this.nextWorm();
+	return worm;
+}
+public void nextWorm()
+{
+	this.setIndex(this.getIndex()+1);
+}
+public int getIndex(){
+	return index;
+}
+public void setIndex(int index){
+	if (index>worms.size()-1)
+		this.index=0;
+	else
+		this.index= index;
 }
 
+private int index = 0;
 
 private final List<Team> team= new ArrayList<Team>();
 
@@ -381,7 +471,15 @@ public void addTeam(Team team) throws IllegalArgumentException, IllegalStateExce
 	this.team.add(team);
 	
 }
-
+ public int numberOfTeams() {
+	 return team.size();
+ }
+ public int numberOfWorms() {
+	 return CollectionWorms.size();
+ }
+ public int numberOfFood() {
+	 return foods.size();
+ }
 
 
 }
