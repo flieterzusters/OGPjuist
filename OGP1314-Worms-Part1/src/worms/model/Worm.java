@@ -473,4 +473,60 @@ public double getIntialVelocity() {
 }
 
 
+public Vector directionToMove(){
+	double distance=0;
+	Vector newPosition = new Vector(getPosition().getPositionX(), getPosition().getPositionY());
+	double bestMove=-0.7885;
+	double divergence = -0.7875;
+	while (divergence<=0.7875)
+	{ Vector maximalMove= getMaxMove(getOrientation()+divergence);
+	if (maximalMove !=null) {
+		double maxDistance= this.getPosition().distance(maximalMove);
+		maxDistance=stepSize*Math.round(maxDistance/stepSize);
+		if (((! Util.fuzzyEquals(divergence,0))|| (Util.fuzzyEquals(divergence,0) && getWorld().isAdjacent(maximalMove.getPositionX(),maximalMove.getPositionY(),getRadius())))
+					&& (divergence < Math.abs(bestMove)) && Util.fuzzyEquals(maxDistance, bestMove, getRadius()*stepSize))
+	{	newPosition=maximalMove;
+		bestMove = divergence;	}
+	if (! Util.fuzzyLessThanOrEqualTo(maxDistance, distance)){
+		newPosition = maximalMove;
+		distance=maxDistance;
+		bestMove=divergence;}
+	}
+	divergence += 0.0175;
+	
+	}
+return newPosition;
 }
+
+public Vector getMaxMove(double orientation){
+	Vector currentPosition= new Vector(getPosition().getPositionX()+0.1*getOrientation()*Math.cos(orientation),getPosition().getPositionY()+0.1*getOrientation()*Math.sin(orientation));
+	boolean impassablePositionFound= false;
+	if (getWorld().imPassable(currentPosition.getPositionX(),currentPosition.getPositionY(), this.getRadius())
+		&& !getWorld().imPassable(this.getPosition().getPositionX(),this.getPosition().getPositionY(), this.getRadius())){
+			impassablePositionFound=true;
+		return null;}
+while (! impassablePositionFound && this.getPosition().distance(currentPosition)<= this.getRadius()){
+	currentPosition = new Vector(currentPosition.getPositionX()+stepSize*Math.cos(orientation)*this.getRadius(),
+								currentPosition.getPositionY()+stepSize*Math.sin(orientation)*this.getRadius());
+	if (getWorld().imPassable(currentPosition.getPositionX(),currentPosition.getPositionY(), this.getRadius()))
+{impassablePositionFound= true;}
+}
+boolean adjacentPositionFound = false;
+while((! adjacentPositionFound)&& impassablePositionFound && !Util.fuzzyLessThanOrEqualTo(this.getPosition().distance(currentPosition),0)
+			&& !getWorld().outOfWorld(currentPosition.getPositionX(),currentPosition.getPositionY(),this.getRadius()))
+			{currentPosition= new Vector(currentPosition.getPositionX()-stepSize*Math.cos(orientation)*this.getRadius(),
+								currentPosition.getPositionY()-stepSize*Math.sin(orientation)*this.getRadius());
+			if (getWorld().isAdjacent(currentPosition.getPositionX(),currentPosition.getPositionY(), this.getRadius()))
+			{adjacentPositionFound= true;
+			return currentPosition;}
+			}
+Vector furthestPosition = new Vector(this.getPosition().getPositionX()+Math.cos(orientation)*this.getRadius(),this.getPosition().getPositionY()+Math.sin(orientation)*this.getRadius());
+			if (getWorld().isAdjacent(furthestPosition.getPositionX(),furthestPosition.getPositionY(),this.getRadius())
+				|| Util.fuzzyEquals(angle, getOrientation()))
+				return furthestPosition;
+			else return null;
+}
+private final double stepSize=0.05;
+}
+
+

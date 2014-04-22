@@ -1,16 +1,8 @@
 package worms.model;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Random;
+import java.util.*;
+import worms.util.Util;
 
-import asteroids.model.Basic;
-import asteroids.model.Ship;
-import asteroids.model.SpaceObject;
-
-//import asteroids.model.Ship;
-//import asteroids.model.SpaceObject;
 
 public class World {
 
@@ -19,15 +11,35 @@ private boolean[][] passableMap;
 private Random random;
 private Worm worm;
 
-
+/**
+ * creates a world and initializes some parameters.
+ * @param width the given width that a world will have.
+ * @param height the height a world will have.
+ * @param passableMap A map which represent a number of pixels where each pixel has the value true or false so to explain if the area is passable or not. 
+ * @param random random number generator
+ * @effect the new world is given the width value
+ * / this.setWidth(width)
+ * @effect the new world is given the height value
+ *  / this.setHeight(height);
+ * @effect the passable map is set to the world
+ *  /this.passableMap = passableMap;
+ * @post  
+ * 
+ * 
+ * 
+ * 
+ * @throws IllegalArgumentException
+ */
 public World(double width, double height,boolean[][] passableMap, Random random) throws IllegalArgumentException  {//zoals in interface	
 	this.setWidth(width);
 	this.setHeight(height);
 	this.passableMap = passableMap;
 	this.random = random ;
 	
-	
-	
+	//worms= new LinkedHashSet<Worm>();
+	//food = new HashSet<Food>();
+	//projectiles = new HashSet<Projectile>();
+	//teams= new HashSet<Team>();
 	//this.Objects = new HashSet<WorldObject>();
 	
 	
@@ -57,16 +69,16 @@ public double getHeight() {
 
 
 public boolean isValidSize(double size) {
-	if (!Double.isNaN(size) &&  (0 <= size) && (size <= Double.MAX_VALUE))
+	if (Double.isNaN(size) &&  (0 <= size) && (size <= Double.MAX_VALUE))
 			{return true;}
 	else {return false;}
 	}
 
 public double getPixelAreaWidth(){
-	return getWidth()/ passableMap.length;
+	return getWidth()/ passableMap[0].length;
 }
 public double getPixelAreaHeight(){
-	return getHeight()/ passableMap.Height;
+	return getHeight()/ passableMap.length;
 }
 public int getCoordinatePixelX(double x) throws IllegalArgumentException { //catch aanvullen
 	if (ValidCoordinateX(x)){
@@ -78,8 +90,9 @@ public int getCoordinatePixelX(double x) throws IllegalArgumentException { //cat
 			pixelCoordinate= pixelCoordinate-1;
 			i= i-pixelWidth;
 			}
+		return pixelCoordinate;
 		}
-		
+	else throw new IllegalArgumentException();	
 	}
 private boolean ValidCoordinateX(double x) {
 	if (x>= 0 && x<=getWidth()){
@@ -96,9 +109,11 @@ public int getCoordinatePixelY(double y) throws IllegalArgumentException {
 				pixelCoordinate= pixelCoordinate-1;
 				i= i-pixelHeight;
 				}
-		}
-		
+			return pixelCoordinate;
 	}
+else throw new IllegalArgumentException();	
+}
+
 private boolean ValidCoordinateY(double y) {
 	if (y>= 0 && y<=getHeight()){
 		return true;}
@@ -106,58 +121,32 @@ private boolean ValidCoordinateY(double y) {
 }
 
 
-
 /**
- * 
- * @param x 
- * 		the x coordinate of the object
- * @param y 
- * 		the y coordinate of the object
- * @param radius 
- * 		the radius coordinate of the object
- * @return 
- * 		looks if the coordinate is not out of the bounds of the world
+ *  gives the map where menisioned the areas who are passable or not	
+ * @return the map where located the passable and impasseble spaces
  */
-public boolean imPassable(double x, double y,double radius){
-	double direction =0;
-	double startX = x;
-	double startY = y;
-	for (direction=0; direction<=2*(Math.PI);)
-		if(passableMap[getCoordinatePixelX(startX)][getCoordinatePixelY(startY)]){
-			direction= direction+Double.MIN_VALUE;
-			startX= x+radius*(Math.cos(direction));
-			startY= y+radius*(Math.sin(direction));
-		}
-		else return false;
-	return true;
-	
-}
-	/*	if (outOfWorld(x,y,radius))
-		return true;
-	 for (int i= (int) (x-Math.abs(radius)); i<x+Math.abs(radius);i++){
-		if (i>=0 && i<getPassableMap()[0].length){
-			for (int j =(int) (y-Math.abs(radius));j<y+Math.abs(radius);j++){
-				if (j>=0 && j<getPassableMap().length)
-					return true break
-				}
-			}
-		}
-	}
-	return false;
-}
-	 	*/
-	
-	
 public boolean[][] getPassableMap(){
 	return this.passableMap;
 }
-
+/**
+ * loads the map for the world and initialises it to the worlds passableMap
+ * /this.passableMap =map
+ * @param map the map provided which represent the passable and impassable areas
+ * @effect the map for the world is created.
+ */
 public void setPassableMap(boolean[][] map){
 	this.passableMap =map;
 	
 }
-
-private boolean outOfWorld(double x, double y, double radius) {
+/**
+ * checks if the provided coordinates and radius of the object is fully into the world and do not pass the boundarys.
+ *
+ * @param x
+ * @param y
+ * @param radius
+ * @return
+ */
+public boolean outOfWorld(double x, double y, double radius) {
 	if (x+Math.abs(radius)>getWidth())
 	return true;
 	if (y+Math.abs(radius)>getHeight())
@@ -166,6 +155,7 @@ private boolean outOfWorld(double x, double y, double radius) {
 	return true;
 	if (y-Math.abs(radius)<0.0)
 	return true;
+	else return false;
 	
 }
 
@@ -208,15 +198,26 @@ public void addNewWorm() {
 	else {createWorm(this,position,angle,radius,"RandomNewWorm") ;}
 }
 
+public void createWorm(World world, Vector position, double angle, double radius, String name){
+	Worm wormpje = new Worm(world,position,angle,radius,name);
+	this.addWormTocollection(wormpje);
+}
 
 
-private Vector adjacentPosition(Vector position){
+/**
+ * 
+ * @param position
+ * @param radius
+ * @return
+ */
+
+private Vector adjacentPosition(Vector position, double radius){
 	int XcenterMap = (int) Math.round(this.getWidth() /2 ); 
 	int YcenterMap = (int) Math.round(this.getHeight()/2) ; 
 	int Xtempor = (int) position.getPositionX();
 	int Ytempor = (int) position.getPositionY(); 	
 	
-	while (! isAdjacent(Xtempor,Ytempor)){	
+	while (! isAdjacent(new Vector(Xtempor,Ytempor),radius)){	
 	if (Xtempor < XcenterMap)
 		Xtempor = Xtempor + 1;
 	if (Xtempor > XcenterMap)
@@ -231,26 +232,71 @@ private Vector adjacentPosition(Vector position){
 	return new Vector(Xtempor, Ytempor);
 }
 
-public void createWorm(World world, Vector position, double angle, double radius, String name){
-	Worm wormpje = new Worm(world,position,angle,radius,name);
-	this.addWormTocollection(wormpje);
-}
-
 
 public boolean isAdjacent(Vector position, double radius){
 	double minDistanceRadius = radius * 0.1 ; 
-	if (!Impassable(position.getPositionX(), position.getPositionY(), minDistanceRadius)) 
+	if (!imPassable(position.getPositionX(), position.getPositionY(), minDistanceRadius)) 
 	return true ;
+	else return false;
+}
+/**
+ * determines if in a area around the given coordinates and radius the world is impassable or not for an object
+ * @param x 
+ * 		the x coordinate of the object
+ * @param y 
+ * 		the y coordinate of the object
+ * @param radius 
+ * 		the radius coordinate of the object
+ * @return 
+ * 		looks if the coordinate is not out of the bounds of the world
+ */
+public boolean imPassable(double x, double y,double radius){
+	double direction =0;
+	double startX = x;
+	double startY = y;
+	for (direction=0; direction<=2*(Math.PI);)
+		if(passableMap[getCoordinatePixelX(startX)][getCoordinatePixelY(startY)]){
+			direction= direction+Double.MIN_VALUE;
+			startX= x+radius*(Math.cos(direction));
+			startY= y+radius*(Math.sin(direction));
+		}
+		else return false;
+	return true;
+	
 }
 
-
+/*
 public boolean isAdjacent(double x, double y, double radius) {
 	double newRadius = radius * 0.1;
-	return ( !isImpassable(x, y, 0) && isImpassable(x, y, newRadius) );
+	return ( !isImpassable(x, y, 0) && !isImpassable(x, y, newRadius) );
+}
+
+public boolean isImpassable(double x, double y, double radius){
+	if (outOfWorld(x,y, radius))
+		return true;
+	return checkIfImpassable(x,y,radius);
+}
+private boolean checkIfImpassable(double x, double y, double radius) {
+	double XPixel=(x/getWidth())*getPassableMap()[0].length;
+	double YPixel=(y/getHeight())*getPassableMap().length;
+	double RadiusInPixels=Math.abs(radius/getWidth()*getPassableMap()[0].length);
+	for (int i = (int) Math.floor(XPixel*RadiusInPixels); !Util.fuzzyGreaterThanOrEqualTo(i,  XPixel+RadiusInPixels); i++ ){
+		if (i>=0 && i< getPassableMap()[0].length){
+			for (int j = (int) Math.floor(YPixel*RadiusInPixels); !Util.fuzzyGreaterThanOrEqualTo(j,  YPixel+RadiusInPixels); j++ ){
+				if ((j>=0 && j< getPassableMap().length) && (inRange(Math.abs(i-XPixel),Math.abs(j-YPixel),RadiusInPixels)&& (! getPassableMap()[j][i]))){
+					return true;}
+			}
+			
+		}
+	}
+		return false;
 }
 
 
-
+private boolean inRange(double i_X, double j_Y, double radiusInPixels) {
+	return Math.sqrt(Math.pow(i_X,2)+ Math.pow(j_Y, 2))<=radiusInPixels;
+}
+*/
 
 
 

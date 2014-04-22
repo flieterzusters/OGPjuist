@@ -7,7 +7,6 @@ package worms.model;
 import java.util.Collection;
 import java.util.Random;
 
-import asteroids.ModelException;
 
 
 

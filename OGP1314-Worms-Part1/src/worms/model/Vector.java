@@ -107,6 +107,12 @@ public class Vector {
 	public boolean validY(double y) {
 	return (!Double.isNaN(y));
 	}
+
+
+
+	public double distance(Vector currentPosition) {
+		return Math.sqrt(Math.pow(this.getPositionX()-currentPosition.getPositionX(),2)+Math.pow(this.getPositionY()-currentPosition.getPositionY(), 2));
+	}
 	
 	
 	
