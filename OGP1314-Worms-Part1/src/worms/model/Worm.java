@@ -26,6 +26,8 @@ private World world;
 
 private double hitPoints;
 
+private static double minRadiusWorm=0.25;
+
 /**
  * Here the Number of action points was stored as integer variable. The action points can be used to move, jump or turn.
  */
@@ -97,8 +99,6 @@ public Worm(World world, Vector position, double angle, double radius, String na
 
 
 
-
-
 	
 
 
@@ -131,7 +131,9 @@ public double getHitPoint(){
 }
 
 
-
+public double getMinimalRadiusWorm(){
+	return this.minRadiusWorm;
+}
 
 
 
@@ -527,6 +529,11 @@ Vector furthestPosition = new Vector(this.getPosition().getPositionX()+Math.cos(
 			else return null;
 }
 private final double stepSize=0.05;
+
+public boolean hasTeam() {
+	// TODO Auto-generated method stub
+	return false;
+}
 }
 
 

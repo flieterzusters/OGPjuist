@@ -1,6 +1,7 @@
 package worms.model;
 
 import java.util.*;
+
 import worms.util.Util;
 
 
@@ -297,24 +298,46 @@ private boolean inRange(double i_X, double j_Y, double radiusInPixels) {
 	return Math.sqrt(Math.pow(i_X,2)+ Math.pow(j_Y, 2))<=radiusInPixels;
 }
 */
+ArrayList<Food>foods= new ArrayList<Food>();
 
+public void addNewFood() throws IllegalArgumentException{
+	int X= random.nextInt();
+	int Y= random.nextInt();
+	Vector location= adjacentPosition(new Vector(X,Y),Food.getFOOD_RADIUS());
+	if (location==null)
+		throw new IllegalArgumentException();
+	createFood(location);
+}
 
+private Food createFood(Vector location) {
+	Food food = new Food(this, location);
+	food.setWorld(this);
+	addAsFood(food);
+	return food;
+	
+}
+public void addAsFood(Food food) throws IllegalArgumentException,IllegalStateException{
+	if(!canHaveAsFood(food))
+		throw new IllegalArgumentException();
+		if ((food.getWorld()!=this) || (hasFood(food)))
+			throw new IllegalStateException();
+		this.foods.add(food);
+}
 
-
-
-
-
+private boolean canHaveAsFood(Food food) {
+	
+	return (!(food == null));
+}
 
 public boolean hasFood(Food food) {
-	// TODO Auto-generated method stub
-	return false;
+	return this.foods.contains(food);
 }
 
 public void removeFood(Food food) {
-	// TODO Auto-generated method stub
+	if (food.isActive())
+		food.terminate();
 	
 }
-
 
 
 private void setActiveWorm(Worm worm) {
@@ -322,9 +345,42 @@ private void setActiveWorm(Worm worm) {
 }
 
 
+private final List<Team> team= new ArrayList<Team>();
 
 
+public List<Team> getTeam() {
+	return this.team;
+}
+public void removeTeam(Team team) throws IllegalArgumentException, IllegalStateException{
+	if (( team==null)|| (! hasTeam(team)))
+		throw new IllegalArgumentException("This team is not right"+team);
+	if (team.hasWorld())
+		throw new IllegalStateException();
+	this.team.remove(team);
+}
+public boolean hasTeam(Team team){
+	return this.team.contains(team);
+}
+public boolean canHaveAsTeam(Team team){
+	return(!(team==null));
 
+}
+public void createTeam(String name) throws IllegalArgumentException{
+	if (name == null || team.size()==10)
+			throw new IllegalArgumentException();
+	Team team = new Team(name);
+	team.setWorld(this);
+	addTeam(team);
+}
+
+public void addTeam(Team team) throws IllegalArgumentException, IllegalStateException{
+	if(! canHaveAsTeam(team))
+		throw new IllegalArgumentException(team+" is not a valid team.");
+	if ((team.getWorld()!=this)||(hasTeam(team)))
+		throw new IllegalStateException();
+	this.team.add(team);
+	
+}
 
 
 

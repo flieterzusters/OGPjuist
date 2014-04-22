@@ -18,7 +18,7 @@ private static double FOOD_RADIUS = 0.20;
  *         
  */	
 public Food(World world, Vector position){
-	super(position, FOOD_RADIUS);
+	super(position, getFOOD_RADIUS());
 	this.setWorld(world);
 }
 
@@ -58,8 +58,6 @@ public Vector getPosition() {
 	return this.Position;
 	}
 
-private World World;
-
 private double x;
 
 private double y;
@@ -81,16 +79,26 @@ public double getY(){
 }
 
 public boolean isActive(){
-	if (this.eaten==1){
+	if (this.terminated=false){
 		return true;
 	}
 	else { return false;}
 }
-
-public void eaten(){
-	this.eaten=0;
+private  boolean terminated=false;
+public void terminated(){
+	this.terminated=true;
 }
-private int eaten;
+public static double getFOOD_RADIUS() {
+	return FOOD_RADIUS;
+}
+
+
+public static void setFOOD_RADIUS(double fOOD_RADIUS) {
+	FOOD_RADIUS = fOOD_RADIUS;
+}
+
+
+
 
 
 }

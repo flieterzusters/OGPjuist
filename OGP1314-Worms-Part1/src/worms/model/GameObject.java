@@ -37,7 +37,7 @@ private Vector Position;
 /**
  * This indicates the minimal radius a worm should have when he is created.
  */
-private final double minRadiusWorm=0.25;
+private final static double minRadiusWorm=0.25;
 
 /**
  * The worm is shaped as a circle, this circle is defined by this value, it must be greater than the minRadius.  
@@ -113,8 +113,8 @@ public boolean validRadius(double radius){
  * @return the minimal radius that the worm should have
  */
 @Basic
-public double getMinRadiusWorm() {
-	return this.minRadiusWorm;
+public static double getMinRadiusWorm() {
+	return minRadiusWorm;
 }
 
 
