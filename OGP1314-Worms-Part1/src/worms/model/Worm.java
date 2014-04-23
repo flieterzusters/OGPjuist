@@ -168,7 +168,7 @@ public void setActionPoints(double actionPoints){
 	else if (actionPoints > getMaxPossiblePoints()){
 		this.actionPoint = getMaxPossiblePoints();}	
 
-	else { this.actionPoint = actionPoints ; }		
+	else { this.actionPoint = getMaxPossiblePoints() ; }		
 }	
 
 /**
@@ -359,13 +359,12 @@ public void turn(double angle){
  * @effect the action points are reduced with the cost of the move
  * 			/this.setActionPoints(this.getActionPoint() - costMove(nbSteps))
  */
-public void Move(int nbSteps) throws IllegalArgumentException  {
-	if (movePossible(nbSteps)){ 
-		this.setActionPoints(this.getActionPoint() - costMove(nbSteps));
-		double travelled= nbSteps*this.getRadius();
-		
-		double xCor = this.getPosition().getPositionX()+travelled*Math.cos(this.getOrientation());
-		double yCor = this.getPosition().getPositionY()+travelled*Math.sin(this.getOrientation());
+public void Move() throws IllegalArgumentException  {
+	Vector distance = this.directionToMove();
+	if (movePossible(distance)){ 		
+		this.setActionPoints(this.getActionPoint() - costMove(distance));		
+		double xCor =( this.getPosition().getPositionX()+distance.getPositionX());
+		double yCor =( this.getPosition().getPositionY()+distance.getPositionY());
 		setPosition(new Vector(xCor,yCor));
 		}
 	else throw new IllegalArgumentException("you don't have enough action points.");
@@ -378,8 +377,8 @@ public void Move(int nbSteps) throws IllegalArgumentException  {
  * @return the total cost of the move in a given direction
  * 			/ costMove = (int)Math.abs(Math.ceil(nbSteps*((double)Math.abs(Math.cos(this.getOrientation())))+ (double)Math.abs(4*Math.sin(this.getOrientation()))))
  */
-public int costMove (int nbSteps) {
-	int costMove = (int)Math.abs(Math.ceil(nbSteps*((double)Math.abs(Math.cos(this.getOrientation())))+ (double)Math.abs(4*Math.sin(this.getOrientation()))));
+public int costMove (Vector distance) {
+	int costMove = (int)Math.abs(Math.ceil((distance.getPositionX()*(double)Math.abs(Math.cos(this.getOrientation())))+ distance.getPositionY()*(double)Math.abs(4*Math.sin(this.getOrientation()))));
 	return costMove ;
 }
 
@@ -391,9 +390,9 @@ public int costMove (int nbSteps) {
  * 			false if there aren't enough action points left
  * 				/costMove(nbSteps) <= this.getActionPoint()
  */
-public boolean movePossible(){
+public boolean movePossible(Vector distance){
 	
-	return costMove(nbSteps) <= this.getActionPoint();
+	return (costMove(distance) <= this.getActionPoint());
 }
 
 
@@ -500,7 +499,7 @@ public Vector directionToMove(){
 	if (maximalMove !=null) {
 		double maxDistance= this.getPosition().distance(maximalMove);
 		maxDistance=stepSize*Math.round(maxDistance/stepSize);
-		if (((! Util.fuzzyEquals(divergence,0))|| (Util.fuzzyEquals(divergence,0) && getWorld().isAdjacent(maximalMove.getPositionX(),maximalMove.getPositionY(),getRadius())))
+		if (((! Util.fuzzyEquals(divergence,0))|| (Util.fuzzyEquals(divergence,0) && getWorld().isAdjacent(new Vector(maximalMove.getPositionX(),maximalMove.getPositionY()),getRadius())))
 					&& (divergence < Math.abs(bestMove)) && Util.fuzzyEquals(maxDistance, bestMove, getRadius()*stepSize))
 	{	newPosition=maximalMove;
 		bestMove = divergence;	}
@@ -533,12 +532,12 @@ while((! adjacentPositionFound)&& impassablePositionFound && !Util.fuzzyLessThan
 			&& !getWorld().outOfWorld(currentPosition.getPositionX(),currentPosition.getPositionY(),this.getRadius()))
 			{currentPosition= new Vector(currentPosition.getPositionX()-stepSize*Math.cos(orientation)*this.getRadius(),
 								currentPosition.getPositionY()-stepSize*Math.sin(orientation)*this.getRadius());
-			if (getWorld().isAdjacent(currentPosition.getPositionX(),currentPosition.getPositionY(), this.getRadius()))
+			if (getWorld().isAdjacent(new Vector(currentPosition.getPositionX(),currentPosition.getPositionY()), this.getRadius()))
 			{adjacentPositionFound= true;
 			return currentPosition;}
 			}
 Vector furthestPosition = new Vector(this.getPosition().getPositionX()+Math.cos(orientation)*this.getRadius(),this.getPosition().getPositionY()+Math.sin(orientation)*this.getRadius());
-			if (getWorld().isAdjacent(furthestPosition.getPositionX(),furthestPosition.getPositionY(),this.getRadius())
+			if (getWorld().isAdjacent(new Vector(furthestPosition.getPositionX(),furthestPosition.getPositionY()),this.getRadius())
 				|| Util.fuzzyEquals(angle, getOrientation()))
 				return furthestPosition;
 			else return null;
@@ -567,17 +566,18 @@ public List<String> weapons =Arrays.asList("Bazooka","Rifle");
 public void shoot(int yield){
 	if (this.canShoot()){
 		if (this.getWeapon() =="Bazooka"){
-			Projectile projectile= new Projectile(this);
+			Projectile projectile= new Projectile(this.getWorld(),this.getPosition().getPositionX(),this.getPosition().getPositionY());
 			projectile.Bazooka(yield,projectile);
 			this.setActionPoints(this.getActionPoint()-Bazooka.getCostLaunch());
 		}
 		if (this.getWeapon() =="Rifle"){
-			Projectile projectile= new Projectile(this);
+			Projectile projectile= new Projectile(this.getWorld(),this.getPosition().getPositionX(),this.getPosition().getPositionY());
 			projectile.Rifle(yield,projectile);
 			this.setActionPoints(this.getActionPoint()-Rifle.getCostLaunch());
 		}
 	}
 }
+public Projectile projectile;
 
 private boolean canShoot() {
 	
@@ -590,7 +590,14 @@ private boolean canShoot() {
 	
 
 }
-
+public Team getTeam() {
+	return team;
+}
+public Team setTeam(Team team){
+	return this.team=team;
+	
+}
+private Team team;
 }
 
 

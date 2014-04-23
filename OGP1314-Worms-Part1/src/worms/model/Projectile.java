@@ -120,9 +120,13 @@ private void damage(Worm worm, Object damage) {
 public void Bazooka(double yield, Projectile projectile){
 	this.getWorld().addProjectile(projectile);
 	Bazooka(this.world,this.x,this.y,yield);
-	jump(yield);
+	Jump(yield);
 }
-
+public void Rifle(double yield, Projectile projectile){
+	this.getWorld().addProjectile(projectile);
+	Rifle(this.world,this.x,this.y,yield);
+	Jump(yield);
+}
 
 public int getDamageWapon() {
 	if (this.getWorld().activeWorm().getWeapon() == "Bazooka")
