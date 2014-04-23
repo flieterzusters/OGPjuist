@@ -72,7 +72,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public double getMinimalRadius(Worm worm) {
-		return worm.getMinRadius();
+		return Worm.minRadiusWorm;
 	}
 
 	@Override
@@ -212,15 +212,10 @@ public class Facade implements IFacade {
 		return 0;
 	}
 
-	@Override
-	public double getJumpTime(Worm worm) {
-		return worm.getJumpTime();
-	}
 	
 	@Override
-	public double getJumpTime(Worm worm, double timeStep) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double getJumpTime(Worm worm, double timeStep) { 
+		return worm.getJumpTime();
 	}
 
 
@@ -349,13 +344,6 @@ public class Facade implements IFacade {
 	}
 
 
-	@Override
-	public void jump(Worm worm)throws IllegalArgumentException {//OUDE
-		try {worm.Jump();}
-		catch(IllegalArgumentException illegalargument)	{
-				throw new ModelException(illegalargument);
-				}
-	}
 	
 	@Override
 	public void jump(Worm worm, double timeStep) throws IllegalArgumentException{ //NIEUWE
@@ -365,13 +353,7 @@ public class Facade implements IFacade {
 				}
 	}
 
-	@Override
-	public void move(Worm worm, int nbSteps) throws IllegalArgumentException {
-		try { worm.Move(nbSteps);}    
-		catch(IllegalArgumentException illegalargument)	{
-			throw new ModelException(illegalargument);
-		}
-	}
+
 	
 	@Override 
 	public void move(Worm worm) {//nieuwe methode 
