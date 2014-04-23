@@ -28,7 +28,7 @@ private World world;
 
 private double hitPoints;
 
-private static double minRadiusWorm=0.25;
+public final static double minRadiusWorm=0.25;
 
 /**
  * Here the Number of action points was stored as integer variable. The action points can be used to move, jump or turn.
