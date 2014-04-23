@@ -37,14 +37,15 @@ public World(double width, double height,boolean[][] passableMap, Random random)
 	this.setHeight(height);
 	this.passableMap = passableMap;
 	this.random = random ;
-	
+}
 	//worms= new LinkedHashSet<Worm>();
 	//food = new HashSet<Food>();
 	//projectiles = new HashSet<Projectile>();
 	//teams= new HashSet<Team>();
 	//this.Objects = new HashSet<WorldObject>();	
 	
-}
+
+
 /**
  * looks if there are worms left in the game
  *	/gameFinished()
@@ -61,11 +62,13 @@ public void nextTurn(){
 	activeWorm().setActionPoints(activeWorm().getMaxPossiblePoints());
 	activeWorm().setHitPoints(activeWorm().getHitPoint()+10);
 }
+
 /**
  * initialises the status of the game to not Fisished jet
  * /finished = false
  */
 private boolean finished = false;
+
 /**
  * gives the status of the game to look if it is already finished or not
  * @return if the game is finished
@@ -74,6 +77,7 @@ private boolean finished = false;
 public  boolean gameFinished(){
 	return finished;
 }
+
 /**
  * when game came to an end game is stopped and alle worms and teams are removerd
  * /this.finished =true	//this.setActiveWorm(null) 	//this.setActiveTeam(null);
@@ -83,6 +87,7 @@ public void setFinished(){
 	this.setActiveWorm(null);
 	this.setActiveTeam(null);
 }
+
 /**
  * Assigns the team who can play now.
  * /this.activeTeam=activeTeam
@@ -90,8 +95,9 @@ public void setFinished(){
  * @post the new team is on turn.
  */
 public void setActiveTeam(Team activeTeam){
-	this.activeTeam=activeTeam;
+	this.activeTeam= activeTeam;
 }
+
 /**
  * gives the team who is on turn at this moment.
  * @return the team who is on turn.
@@ -100,10 +106,12 @@ public void setActiveTeam(Team activeTeam){
 public Team getActiveTeam(){
 	return this.activeTeam;
 }
+
 /**
  * the last team who was added to the game is the active on the start of the game
  */
 private Team activeTeam;
+
 /**
  * basic setter who assigns the worm who is on turn at this moment to activeWorm
  * @param worm the worm who is currently on turn
@@ -112,6 +120,7 @@ private Team activeTeam;
 public void setActiveWorm(Worm worm){
 	this.activeWorm =worm;
 }
+
 /**
  * getter to get the worm who is actually on turn.
  * @return the worm who is currently on turn
@@ -135,7 +144,7 @@ public void startGame(){
 	iterator =worms.iterator();
 	if(iterator.hasNext());
 	setActiveWorm((Worm)iterator.next());
-	if (this.getActiveTeam() !=null &&this.getActiveTeam().getWormCollection().size()==0)
+	if (this.getActiveTeam() !=null && this.getActiveTeam().getWormCollection().size()==0)
 		this.removeTeam(this.getTeam());
 	setActiveTeam(null);
 	setGameStarted();
@@ -722,6 +731,21 @@ public void addTeam(Team team) throws IllegalArgumentException, IllegalStateExce
  }
 
 
+ /**
+	 * Check whether a game object with given center and radius is adjacent to impassable terrain.
+	 * @param 	positie
+	 * 			The center of the game object to check.
+	 * @param 	radius
+	 * 			The radius of the game object to check.
+	 * @return	result == isAdjacentToImpassableTerrain(center, radius, 0, 0)
+	 */
+	public boolean isAdjacentToImpassableTerrain(Vector positie, double radius){
+//nog aan te vullen
+	}
+ 
+ 
+ 
+ 
 }
 
 

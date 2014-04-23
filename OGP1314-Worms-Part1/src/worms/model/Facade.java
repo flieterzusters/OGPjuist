@@ -13,20 +13,14 @@ import java.util.Random;
 public class Facade implements IFacade {
 
 	
-		
 	@Override
-	public boolean canMove(Worm worm, int nbSteps) {
-		return worm.movePossible(nbSteps);
+	public boolean canMove(Worm worm) {
+		return worm.movePossible(nbSteps); //nbSteps wordt niet meer meegegeven als vroeger(methode in worm aanpassen)
 	}
+	
 
 
-	@Override
-	public void move(Worm worm, int nbSteps) throws IllegalArgumentException {
-		try { worm.Move(nbSteps);}    
-		catch(IllegalArgumentException illegalargument)	{
-			throw new ModelException(illegalargument);
-		}
-	}
+	
 
 	@Override
 	public boolean canTurn(Worm worm, double angle) {
@@ -38,18 +32,9 @@ public class Facade implements IFacade {
 		worm.turn(angle);
 	}
 
-	@Override
-	public void jump(Worm worm)throws IllegalArgumentException {
-		try {worm.Jump();}
-		catch(IllegalArgumentException illegalargument)	{
-				throw new ModelException(illegalargument);
-				}
-	}
 
-	@Override
-	public double getJumpTime(Worm worm) {
-		return worm.getJumpTime();
-	}
+
+
 
 	@Override
 	public double[] getJumpStep(Worm worm, double t) {
@@ -60,11 +45,12 @@ public class Facade implements IFacade {
 	public double getX(Worm worm) {
 		return worm.getPositionX();
 	}
-
+	
 	@Override
 	public double getY(Worm worm) {
 		return worm.getPositionY();
 	}
+	
 
 	@Override
 	public double getOrientation(Worm worm) {
@@ -118,37 +104,33 @@ public class Facade implements IFacade {
 
 	@Override
 	public void addEmptyTeam(World world, String newName) {
-		// TODO Auto-generated method stub
-		
+		try{
+			world.addTeam(new Team(newName));
+			}
+			catch(IllegalArgumentException illegalArgument){
+				throw new ModelException(illegalArgument);
+			}	
 	}
-
 
 	@Override
 	public void addNewFood(World world) {
-		// TODO Auto-generated method stub
-		
+		world.addNewFood();
 	}
 
 
 	@Override
 	public void addNewWorm(World world) {
 		world.addNewWorm();	
-		
 	}
 
 
 	@Override
 	public boolean canFall(Worm worm) {
-		// TODO Auto-generated method stub
-		return false;
+		return worm.canFall();
 	}
 
 
-	@Override
-	public boolean canMove(Worm worm) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 
 	@Override
@@ -230,7 +212,11 @@ public class Facade implements IFacade {
 		return 0;
 	}
 
-
+	@Override
+	public double getJumpTime(Worm worm) {
+		return worm.getJumpTime();
+	}
+	
 	@Override
 	public double getJumpTime(Worm worm, double timeStep) {
 		// TODO Auto-generated method stub
@@ -364,14 +350,31 @@ public class Facade implements IFacade {
 
 
 	@Override
-	public void jump(Worm worm, double timeStep) {
-		// TODO Auto-generated method stub
-		
+	public void jump(Worm worm)throws IllegalArgumentException {
+		try {worm.Jump();}
+		catch(IllegalArgumentException illegalargument)	{
+				throw new ModelException(illegalargument);
+				}
+	}
+	
+	@Override
+	public void jump(Worm worm, double timeStep) throws IllegalArgumentException{
+		try {worm.Jump();}
+		catch(IllegalArgumentException illegalargument)	{
+				throw new ModelException(illegalargument);
+				}
 	}
 
-
 	@Override
-	public void move(Worm worm) {
+	public void move(Worm worm, int nbSteps) throws IllegalArgumentException {
+		try { worm.Move(nbSteps);}    
+		catch(IllegalArgumentException illegalargument)	{
+			throw new ModelException(illegalargument);
+		}
+	}
+	
+	@Override 
+	public void move(Worm worm) {//nieuwe methode 
 		// TODO Auto-generated method stub
 		
 	}

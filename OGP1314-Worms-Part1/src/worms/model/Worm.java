@@ -101,7 +101,19 @@ public Worm(World world, Vector position, double angle, double radius, String na
 
 
 
+
+public boolean canFall() {
+
+	if (this.getWorld().adjacentToImpassableTerrain(this.getPosition(),this.getRadius() ); //die adjacentTo nog aanmaken
+		return false;
 	
+}
+
+public void fall(){
+	Position curpos=new Position(getPosition());
+	
+}
+
 
 
 public void setWorld(World world){
