@@ -149,18 +149,14 @@ public void setDamage(Worm worm){
 	worm.setActionPoints(worm.getHitPoint()-getDamageWapon());
 }
 
-public void Jump() throws IllegalArgumentException {
-	if(this.CheckActionPoints()){
+public void Jump(double jumpTime) throws IllegalArgumentException {
 			if(this.CheckOrientation()){
-				double t=this.getJumpTime();
-				double[] endPosition = this.getJumpStep(t);
+				double[] endPosition = this.getJumpStep(jumpTime);
 				this.setPosition(new Vector(endPosition[0],endPosition[1]));
-				this.worm.setActionPoints(0);
 			}
-			else { throw new IllegalArgumentException("this is not a valid jump, the worm has to be facing up.");}
-	}
-	else {throw new IllegalArgumentException ("You dont have enough action points to jump.");}
-	}
+			else { throw new IllegalArgumentException("this is not a valid jump, the projectile has to be facing up.");}
+	
+}
 
 
 /**
