@@ -391,7 +391,8 @@ public int costMove (int nbSteps) {
  * 			false if there aren't enough action points left
  * 				/costMove(nbSteps) <= this.getActionPoint()
  */
-public boolean movePossible(int nbSteps){
+public boolean movePossible(){
+	
 	return costMove(nbSteps) <= this.getActionPoint();
 }
 

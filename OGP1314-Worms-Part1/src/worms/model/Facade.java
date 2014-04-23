@@ -15,7 +15,7 @@ public class Facade implements IFacade {
 	
 	@Override
 	public boolean canMove(Worm worm) {
-		return worm.movePossible(nbSteps); //nbSteps wordt niet meer meegegeven als vroeger(methode in worm aanpassen)
+		return worm.movePossible(); //nbSteps wordt niet meer meegegeven als vroeger(methode in worm aanpassen)
 	}
 	
 
@@ -344,13 +344,13 @@ public class Facade implements IFacade {
 
 	@Override
 	public void jump(Projectile projectile, double timeStep) {
-		// TODO Auto-generated method stub
+		projectile.Jump(timeStep);
 		
 	}
 
 
 	@Override
-	public void jump(Worm worm)throws IllegalArgumentException {
+	public void jump(Worm worm)throws IllegalArgumentException {//OUDE
 		try {worm.Jump();}
 		catch(IllegalArgumentException illegalargument)	{
 				throw new ModelException(illegalargument);
@@ -358,7 +358,7 @@ public class Facade implements IFacade {
 	}
 	
 	@Override
-	public void jump(Worm worm, double timeStep) throws IllegalArgumentException{
+	public void jump(Worm worm, double timeStep) throws IllegalArgumentException{ //NIEUWE
 		try {worm.Jump();}
 		catch(IllegalArgumentException illegalargument)	{
 				throw new ModelException(illegalargument);
