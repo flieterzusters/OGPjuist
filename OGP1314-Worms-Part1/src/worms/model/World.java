@@ -536,6 +536,9 @@ public void createFood(Vector location) {
 	addAsFood(food);
 	
 }
+public ArrayList<Food> getFoods(){
+	return foods;
+}
 /**
  * if the value of food is valid the food object is added to the list of foods
  * @param food the provided object of food
@@ -731,19 +734,26 @@ public void addTeam(Team team) throws IllegalArgumentException, IllegalStateExce
  }
 
 
- /**
-	 * Check whether a game object with given center and radius is adjacent to impassable terrain.
-	 * @param 	positie
-	 * 			The center of the game object to check.
-	 * @param 	radius
-	 * 			The radius of the game object to check.
-	 * @return	result == isAdjacentToImpassableTerrain(center, radius, 0, 0)
-	 */
-
- 
- 
+public Projectile getActiveProjectile() {
+	return this.activeProjectile();
 }
-
-
+public Projectile activeProjectile(){
+	Projectile projectile =this.activeWorm().projectile;
+	return projectile;
+}
+//niet juist denk ik
+public void addProjectile(Projectile givenProjectile){
+	Projectile Newprojectile = new Projectile(this,this.activeWorm.getPosition().getPositionX(),this.getActiveWorm().getPosition().getPositionY());
+	
+	
+}
+public String getWinner(){
+	if ((finished) && (team.size() == 1) && this.worms.size()==1)
+		return (this.getTeam().getName());
+	if (finished && team.size() == 0 && this.worms.size()==1)
+		return (activeWorm.getNaming());
+	return null;
+}
+}
 
 
