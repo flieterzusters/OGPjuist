@@ -739,11 +739,7 @@ public void addTeam(Team team) throws IllegalArgumentException, IllegalStateExce
 	 * 			The radius of the game object to check.
 	 * @return	result == isAdjacentToImpassableTerrain(center, radius, 0, 0)
 	 */
-	public boolean isAdjacentToImpassableTerrain(Vector positie, double radius){
-//nog aan te vullen
-	}
- 
- 
+
  
  
 }
