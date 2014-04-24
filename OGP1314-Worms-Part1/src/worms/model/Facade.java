@@ -132,7 +132,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public void addEmptyTeam(World world, String newName) {
-		try{
+         try{
 			world.addTeam(new Team(newName));
 			}
 			catch(IllegalArgumentException illegalArgument){
@@ -142,33 +142,34 @@ public class Facade implements IFacade {
 
 	@Override
 	public void addNewFood(World world) {
-		world.addNewFood();
+		//world.addNewFood();
 	}
 
 
 	@Override
 	public void addNewWorm(World world) {
-		world.addNewWorm();	
+		//world.addNewWorm();	
 	}
 
 
 	@Override
 	public boolean canFall(Worm worm) {
-		return worm.canFall();
+		//return worm.canFall();
+		return false;
 	}
 
 	@Override
 	public void fall(Worm worm) {
-		worm.fall();	
+		//worm.fall();	
 	}
 
 
 
 	@Override
 	public Food createFood(World world, double x, double y) {
-		Vector positionFood = new Vector(x,y);
-		Food freshFood = new Food(world, positionFood);
-		return freshFood;
+		//Vector positionFood = new Vector(x,y);
+		//Food freshFood = new Food(world, positionFood);
+		//return freshFood;
 	}
 
 
@@ -198,7 +199,8 @@ public class Facade implements IFacade {
 
 	@Override
 	public Collection<Food> getFood(World world) {
-		return world.getFoods();
+		//return world.getFoods();
+		return null;
 	}
 
 
@@ -223,12 +225,14 @@ public class Facade implements IFacade {
 	@Override
 	public int getMaxHitPoints(Worm worm) {
 		return worm.getMaxPossiblePoints();
+		
 	}
 
 
 	@Override
 	public double getRadius(Food food) {
-		return food.getRadius();
+		//return food.getRadius();
+		return 0;
 	}
 
 
@@ -252,7 +256,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public String getWinner(World world) {
-		return world.getWinner(); //reeds aangemaakt
+		return world.getWinner(); 
 	}
 
 

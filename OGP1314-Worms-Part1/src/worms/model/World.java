@@ -142,7 +142,7 @@ private Iterator<Worm>iterator;
  */
 public void startGame(){
 	iterator =worms.iterator();
-	if(iterator.hasNext());
+	if(iterator.hasNext())
 	setActiveWorm((Worm)iterator.next());
 	if (this.getActiveTeam() !=null && this.getActiveTeam().getWormCollection().size()==0)
 		this.removeTeam(this.getTeam());
