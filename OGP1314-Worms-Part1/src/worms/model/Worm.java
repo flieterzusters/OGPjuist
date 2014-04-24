@@ -103,14 +103,22 @@ public Worm(World world, Vector position, double angle, double radius, String na
 
 
 public boolean canFall() {
-	//if (this.getWorld().adjacentToImpassableTerrain(this.getPosition(),this.getRadius() ); //die adjacentTo nog aanmaken
-	//	return false;
-	return false;
+	if (this.getWorld().isAdjacent(this.getPosition(), this.getRadius())) 
+	{return false;}
+	else {return true;}
 }
 
+
+
+
 public void fall(){
-	//Position curpos=new Position(getPosition());
+	double distanceFall = 0;
 	
+	while(this.canFall() && !this.isTerminated())
+		{this.setPosition( new Vector(this.getPosition().getPositionX(), this.getPosition().getPositionY() - 0.01));
+		distanceFall = distanceFall + 0.01;}
+	
+	this.setHitPoints(this.getHitPoint() - (int)Math.floor(distanceFall/3));
 }
 
 
