@@ -519,7 +519,7 @@ ArrayList<Food>foods= new ArrayList<Food>();
 public void addNewFood() throws IllegalArgumentException{
 	int X= random.nextInt();
 	int Y= random.nextInt();
-	Vector location= adjacentPosition(new Vector(X,Y),Food.getFOOD_RADIUS());
+	Vector location= adjacentPosition(new Vector(X,Y),Food.getFoodRadius());
 	if (location==null)
 		throw new IllegalArgumentException();
 	createFood(location);

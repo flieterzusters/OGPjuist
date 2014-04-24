@@ -186,9 +186,10 @@ public boolean CheckOrientation() {
  * @return the time in seconds for a potential jump from the current position.
  */
 //formal doc
-public double getJumpTime(){
+public double getJumpTime(timestep) {
+
 	double distance= ((Math.pow(this.getIntialVelocity(),2))*(Math.sin(2*this.worm.getOrientation())))/Worm.Gravity;
-	double t= distance/(this.getIntialVelocity()*Math.cos(this.worm.getOrientation()));
+	double t= distance/(this.getIntialVelocity()*Math.cos(this.worm.getOrientation())) ;
 	return t;
 }
 // divided by 0 pi/2
