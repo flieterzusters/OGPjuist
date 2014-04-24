@@ -186,7 +186,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public Projectile getActiveProjectile(World world) {
-		world.getActiveProjectile(); //reeds aangevuld
+		return world.getActiveProjectile(); 
 	}
 
 
@@ -198,7 +198,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public Collection<Food> getFood(World world) {
-		return getFoods();// reeds aangevuld
+		return world.getFoods();// reeds aangevuld
 	}
 
 
@@ -246,19 +246,19 @@ public class Facade implements IFacade {
 
 	@Override
 	public String getTeamName(Worm worm) {
-		return worm.getTeam().getName(); //getteam nog aan te maken
+		return worm.getTeam().getName(); 
 	}
 
 
 	@Override
 	public String getWinner(World world) {
-		world.getWinner(); //reeds aangemaakt
+		return world.getWinner(); //reeds aangemaakt
 	}
 
 
 	@Override
 	public Collection<Worm> getWorms(World world) {
-	world.getWorms();
+	   return world.getWorms();
 	}
 
 
@@ -313,15 +313,13 @@ public class Facade implements IFacade {
 
 	@Override
 	public boolean isGameFinished(World world) {
-		// TODO Auto-generated method stub
-		return false;
+		return world.gameFinished();
 	}
 
 
 	@Override
 	public boolean isImpassable(World world, double x, double y, double radius) {
-		// TODO Auto-generated method stub
-		return false;
+		return world.imPassable(x, y, radius);
 	}
 
 
@@ -345,7 +343,7 @@ public class Facade implements IFacade {
 	
 	@Override 
 	public void move(Worm worm) {//nieuwe methode 
-	  return worm.move();
+	   worm.Move();
 	}
 
 
