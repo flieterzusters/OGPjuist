@@ -26,7 +26,7 @@ public class Worm extends GameObject {
 	
 private World world;	
 
-private double hitPoints;
+private int hitPoints;
 
 public final static double minRadiusWorm=0.25;
 
@@ -103,14 +103,13 @@ public Worm(World world, Vector position, double angle, double radius, String na
 
 
 public boolean canFall() {
-
-	if (this.getWorld().adjacentToImpassableTerrain(this.getPosition(),this.getRadius() ); //die adjacentTo nog aanmaken
-		return false;
-	
+	//if (this.getWorld().adjacentToImpassableTerrain(this.getPosition(),this.getRadius() ); //die adjacentTo nog aanmaken
+	//	return false;
+	return false;
 }
 
 public void fall(){
-	Position curpos=new Position(getPosition());
+	//Position curpos=new Position(getPosition());
 	
 }
 
@@ -125,7 +124,7 @@ public World getWorld(){
 	}
 
 
-public void setHitPoints(double hitpoints){
+public void setHitPoints(int hitpoints){
 	if ( hitpoints <0) {
 		this.hitPoints =0;}
 
@@ -140,7 +139,7 @@ public void setHitPoints(double hitpoints){
  * gives the number of hit points left for the worm.
  * @return the number of hit points left for the worm
  */
-public double getHitPoint(){
+public int getHitPoint(){
 	return this.hitPoints ;	
 }
 

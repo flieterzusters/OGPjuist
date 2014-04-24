@@ -198,13 +198,13 @@ public class Facade implements IFacade {
 
 	@Override
 	public Collection<Food> getFood(World world) {
-		return world.getFoods();// reeds aangevuld
+		return world.getFoods();
 	}
 
 
 	@Override
 	public int getHitPoints(Worm worm) {
-		return worm.getHitPoint(); //nog aan te passen
+		return worm.getHitPoint(); 
 	}
 
 
