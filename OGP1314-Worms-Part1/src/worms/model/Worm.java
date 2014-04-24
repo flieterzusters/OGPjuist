@@ -597,6 +597,14 @@ public Team setTeam(Team team){
 	
 }
 private Team team;
+
+public boolean hasTeam() {
+	if (!(this.getTeam() ==null))
+		return true;
+	else
+		return false;
 }
+}
+
 
 

@@ -5,23 +5,23 @@ public class Bazooka extends Projectile {
 /**
  * variable that contains the yield of the Bazooka projectile
  */
-private final int yield;
+private static int yield;
 /**
  * variable that contains the mass of the Bazooka
  */
-private double massBazooka=0.3;	
+private static double massBazooka=0.3;	
 /**
  * variable that contains the minimal force a Bazooka should at laest have.
  */
-private double minForceBazooka=2.5;
+private static double minForceBazooka=2.5;
 /**
  * variable that contains the maximal force a Bazooka can have. 
  */
-private double maxForceBazooka=9.5;
+private static double maxForceBazooka=9.5;
 /**
  * variable that contains the maximal yield a Bazooka can have.
  */
-private int maxYield=100;
+private static int maxYield=100;
 /**
  * variable that contains the minimal yield a Bazooka should at least have.
  */
@@ -58,7 +58,7 @@ private boolean ValidYield(int yield) {
  * gives the mass a Bazooka has
  * @return the mass of the Bazooka /massBazooka
  */
-public double getMass(){
+public static double getMass(){
 return massBazooka;
 }
 /**
@@ -71,12 +71,12 @@ public static int getCostLaunch(){
  * gives the force a Bazooka has
  * @return / result= minForceBazooka +(this.getYield()*((maxForceBazooka-minForceBazooka)/maxYield))
  */
-public double getForce(){
-	return minForceBazooka +(this.getYield()*((maxForceBazooka-minForceBazooka)/maxYield));
+public static double getForce(){
+	return minForceBazooka +(yield*((maxForceBazooka-minForceBazooka)/maxYield));
 }
 /**
  * returns the yield of this Bazooka Projectile
- * @return the yield of the Bazooka that was provided whith the creation of the Bazooka
+ * @return the yield of the Bazooka that was provided with the creation of the Bazooka
  * 		/result = this.yield
  */
 public double getYield() {
@@ -86,7 +86,7 @@ public double getYield() {
  * gives the damage a Bazooka does
  * @return /result=80
  */
-public int getDamage(){
+public static int getDamage(){
 	return 80;
 }
 }

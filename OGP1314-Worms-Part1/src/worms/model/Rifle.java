@@ -8,11 +8,11 @@ private final int yield;
 /**
 * variable that contains the mass of the Rifle
 */
-private double massRifle=0.01;	
+private static double massRifle=0.01;	
 /**
 * variable that contains the force a Rifle has. 
 */
-private double ForceRifle=2.5;
+private static double ForceRifle=2.5;
 /**
 * variable that contains the maximal yield a Rifle can have.
 */
@@ -53,7 +53,7 @@ private boolean ValidYield(int yield) {
 * gives the mass a Rifle has
 * @return the mass of the Rifle /massRifle
 */
-public double getMass(){
+public static double getMass(){
 return massRifle;
 }
 /**
@@ -66,7 +66,7 @@ public static int getCostLaunch(){
  * gives the force a Rifle has.
  * @return /result=ForceRifle
  */
-public double getForce(){
+public static double getForce(){
 	return ForceRifle ;
 }
 /**

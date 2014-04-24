@@ -12,6 +12,10 @@ private Worm worm;
 
 private double x,y;
 
+/**
+ * This is the Gravity a worm has, this is final and static because it is the same for all the worms and can't change during the game.
+ */
+public static final double Gravity = 9.80665;
 
 
 
@@ -117,19 +121,22 @@ private void damage(Worm worm, Object damage) {
 	
 	
 }
-public void Bazooka(double yield, Projectile projectile){
+public void Bazooka(int yield, Projectile projectile){
 	this.getWorld().addProjectile(projectile);
-	Bazooka(this.world,this.x,this.y,yield);
+	new Bazooka(this.world,this.x,this.y,yield);
 	Jump(yield);
 }
-public void Rifle(double yield, Projectile projectile){
+public void Rifle(int yield, Projectile projectile){
 	this.getWorld().addProjectile(projectile);
-	Rifle(this.world,this.x,this.y,yield);
+	 new Rifle(this.world,this.x,this.y,yield);
 	Jump(yield);
 }
 
 public int getDamageWapon() {
 	if (this.getWorld().activeWorm().getWeapon() == "Bazooka")
+		return Bazooka.getDamage();
+	return 0;
+	
 		
 }
 public void OverlapWithWorm() {
@@ -181,26 +188,55 @@ public boolean CheckOrientation() {
 }
 
 
+
 /**
  * Get the time to make a jump.
  * @return the time in seconds for a potential jump from the current position.
  */
 //formal doc
-public double getJumpTime(timestep) {
-
-	double distance= ((Math.pow(this.getIntialVelocity(),2))*(Math.sin(2*this.worm.getOrientation())))/Worm.Gravity;
-	double t= distance/(this.getIntialVelocity()*Math.cos(this.worm.getOrientation())) ;
-	return t;
+public double getJumpTime(Projectile projectile,double timeStep) {
+		if (this.CheckOrientation())
+			return 0;
+	Vector currentPosition= new Vector(this.getPosition().getPositionX()+Math.cos(this.worm.getOrientation()),this.getPosition().getPositionY()+Math.sin(this.worm.getOrientation()));
+	boolean newPositionFound = false;
+	if (this.getWorld().imPassable(currentPosition.getPositionX(),currentPosition.getPositionY(),this.getRadius())){
+		newPositionFound=true;
+		return 0;
+	}
+	int nbSteps = 0;
+	while(!newPositionFound &&! this.getWorld().outOfWorld(currentPosition.getPositionX(),currentPosition.getPositionY(),this.getRadius())){
+		nbSteps++;
+		Vector newPosition= jumpStep(nbSteps*timeStep);
+		currentPosition = new Vector(newPosition.getPositionX(),newPosition.getPositionY());
+		if (this.getWorld().imPassable(currentPosition.getPositionX(),currentPosition.getPositionY(), this.getRadius()) ||this.overlap(getWorm()))
+		{		newPositionFound=true;
+		return nbSteps*timeStep;	}
+	}
+	return 0;
 }
 // divided by 0 pi/2
-
+public Vector jumpStep(double t){
+	double v0 =getVelocity();
+	double v0X=v0*Math.cos(this.getWorm().getOrientation());
+	double v0Y=v0*Math.sin(this.getWorm().getOrientation());
+	return new Vector(this.x+v0X*t,this.y+v0Y*t-0.5*Gravity*Math.pow(t,2));
+}
+public double getVelocity(){
+	if (this.getWorm().getWeapon()=="Bazooka")
+			return ((Bazooka.getForce()/Bazooka.getMass())*0.5);
+	
+	if (this.getWorm().getWeapon()=="Rifle")
+				return ((Rifle.getForce()/Rifle.getMass())*0.5);
+	return 1;
+		
+}
 
 /**
  * Computes the on-flight position [x,y] of a jumping worm at any seconds afther launch.
  * @param t
  * 		the time in seconds for a potential jump from the current position.
  * @return
- * 		the end position of the worm afther a jump.
+ * 		the end position of the worm after a jump.
  */
 //formal doc
 public double[] getJumpStep(double t){  
