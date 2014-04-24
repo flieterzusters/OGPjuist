@@ -167,9 +167,9 @@ public class Facade implements IFacade {
 
 	@Override
 	public Food createFood(World world, double x, double y) {
-		Vector positionFood = new Vector(x,y);
-		Food freshFood = new Food(world, positionFood);
-		return freshFood;
+		//Vector positionFood = new Vector(x,y);
+		//Food freshFood = new Food(world, positionFood);
+		//return freshFood;
 	}
 
 
