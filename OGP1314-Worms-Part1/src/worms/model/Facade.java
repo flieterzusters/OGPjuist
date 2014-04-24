@@ -111,7 +111,7 @@ public class Facade implements IFacade {
 	
 	@Override
 	public boolean canMove(Worm worm) {
-		return worm.movePossible(); //nbSteps wordt niet meer meegegeven als vroeger(methode in worm aanpassen)
+		return worm.movePossible();
 	}
 	
 	@Override
@@ -216,7 +216,7 @@ public class Facade implements IFacade {
 
 	@Override
 	public double getJumpTime(Projectile projectile, double timeStep) {
-		return projectile.getJumpTime(timeStep); //nog aan te passen
+		return projectile.getJumpTime(projectile,timeStep);
 	}
 
 
