@@ -102,8 +102,8 @@ public Worm(World world, Vector position, double angle, double radius, String na
 
 
 
-public boolean canFall( Vector position) {
-	if (this.getWorld().isAdjacent(position, this.getRadius())) 
+public boolean canFall() {
+	if (this.getWorld().isAdjacent(this.getPosition(), this.getRadius())) 
 	{return false;}
 	else {return true;}
 }
@@ -114,7 +114,7 @@ public boolean canFall( Vector position) {
 public void fall(){
 	double distanceFall = 0;
 	
-	while(this.canFall(this.getPosition()) && !this.isTerminated())
+	while(this.canFall() && !this.isTerminated())
 		{this.setPosition( new Vector(this.getPosition().getPositionX(), this.getPosition().getPositionY() - 0.01));
 		distanceFall = distanceFall + 0.01;}
 	

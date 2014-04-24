@@ -157,7 +157,10 @@ public class Facade implements IFacade {
 		return worm.canFall();
 	}
 
-
+	@Override
+	public void fall(Worm worm) {
+		worm.fall();	
+	}
 
 
 
@@ -178,10 +181,7 @@ public class Facade implements IFacade {
 
 	
 
-	@Override
-	public void fall(Worm worm) {
-		worm.fall();	
-	}
+	
 
 
 	@Override
