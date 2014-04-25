@@ -22,7 +22,7 @@ import be.kuleuven.cs.som.annotate.Basic;
 public class Worm extends GameObject {
 
 
-	
+private Vector distance;	
 	
 private World world;	
 
@@ -367,11 +367,11 @@ public void turn(double angle){
  * 			/this.setActionPoints(this.getActionPoint() - costMove(nbSteps))
  */
 public void Move() throws IllegalArgumentException  {
-	Vector distance = this.directionToMove();
-	if (movePossible(distance)){ 		
-		this.setActionPoints(this.getActionPoint() - costMove(distance));		
-		double xCor =( this.getPosition().getPositionX()+distance.getPositionX());
-		double yCor =( this.getPosition().getPositionY()+distance.getPositionY());
+	
+	if (movePossible()){ 		
+		this.setActionPoints(this.getActionPoint() - costMove());		
+		double xCor =( this.getPosition().getPositionX()+getDistance().getPositionX());
+		double yCor =( this.getPosition().getPositionY()+getDistance().getPositionY());
 		setPosition(new Vector(xCor,yCor));
 		}
 	else throw new IllegalArgumentException("you don't have enough action points.");
@@ -384,11 +384,18 @@ public void Move() throws IllegalArgumentException  {
  * @return the total cost of the move in a given direction
  * 			/ costMove = (int)Math.abs(Math.ceil(nbSteps*((double)Math.abs(Math.cos(this.getOrientation())))+ (double)Math.abs(4*Math.sin(this.getOrientation()))))
  */
-public int costMove (Vector distance) {
-	int costMove = (int)Math.abs(Math.ceil((distance.getPositionX()*(double)Math.abs(Math.cos(this.getOrientation())))+ distance.getPositionY()*(double)Math.abs(4*Math.sin(this.getOrientation()))));
+public int costMove () {
+	int costMove = (int)Math.abs(Math.ceil((getDistance().getPositionX()*(double)Math.abs(Math.cos(this.getOrientation())))+ distance.getPositionY()*(double)Math.abs(4*Math.sin(this.getOrientation()))));
 	return costMove ;
 }
 
+public void setDistance(){
+ 	this.distance = this.directionToMove();
+}
+
+public Vector getDistance(){
+	return distance;
+}
 
 /**
  * Looks if there are enough action points left to perform the move.
@@ -397,10 +404,11 @@ public int costMove (Vector distance) {
  * 			false if there aren't enough action points left
  * 				/costMove(nbSteps) <= this.getActionPoint()
  */
-public boolean movePossible(Vector distance){
-	
-	return (costMove(distance) <= this.getActionPoint());
+public boolean movePossible(){
+	return (costMove() <= this.getActionPoint());
 }
+
+
 
 
 

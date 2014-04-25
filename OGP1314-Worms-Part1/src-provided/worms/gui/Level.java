@@ -38,7 +38,7 @@ public class Level {
 	private static File[] getLevelFiles() {
 		File levelsDir = new File(LEVELS_DIRECTORY);
 		if (!levelsDir.exists() || !levelsDir.isDirectory()) {
-		//	throw new RuntimeException("levels directory not found");
+			throw new RuntimeException("levels directory not found");
 		}
 		File[] levelFiles = levelsDir.listFiles(new FilenameFilter() {
 
